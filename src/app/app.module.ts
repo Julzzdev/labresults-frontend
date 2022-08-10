@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // material
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+//views
 import { NavHeaderComponent } from './components/nav-header/nav-header.component';
 import { LoginComponent } from './views/login/login.component';
 import { TemplatesComponent } from './views/templates/templates.component';
@@ -37,7 +42,11 @@ import { SettingsComponent } from './views/settings/settings.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

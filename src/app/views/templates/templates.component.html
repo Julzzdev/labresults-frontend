@@ -1,1 +1,19 @@
-<p>templates works!</p>
+<nav-header></nav-header>
+<section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
+    <div class="col-8 text-white py-5">
+       <div class="d-flex px-3">
+         <!-- user -->
+      <mat-form-field appearance="fill" color="accent">
+        <mat-label>Search</mat-label>
+        <input matInput type="search">
+      </mat-form-field>
+       </div>
+        <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
+            <!-- cards -->
+            <div class="col-sm-12 col " *ngFor="let template of templates">
+                <card-template [data]="template"></card-template>
+            </div>
+        </div>
+    </div>
+
+</section>
