@@ -4,7 +4,7 @@ export interface Template{
     fields:Field[]
 }
 
- interface Field{
+ export interface Field{
     name:string,
     unity:string,
     value:string
