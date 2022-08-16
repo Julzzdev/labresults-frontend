@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Template,Field} from './template.interface'
-import {FormControl,FormGroup, Validators,FormBuilder,ReactiveFormsModule} from '@angular/forms';
+import {Validators,FormBuilder} from '@angular/forms';
 @Component({
   selector: 'app-templates',
   templateUrl: './templates.component.html',
@@ -43,6 +43,7 @@ public addFieldsGroup=(form:any)=>{
 public reset=(stepper:any)=>{
   stepper.reset()
   this.namesForm.reset()
+  this.templates=[]
   this.fieldsForm.reset()
   this.passForm.setValue({field:'stepper'})
 }

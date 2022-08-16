@@ -4,11 +4,17 @@ import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from './views/login/login.component'
 import {TemplatesComponent} from './views/templates/templates.component'
 import {TestsComponent} from './views/tests/tests.component'
+import {ResultsComponent} from './views/results/results.component'
+import {ReportsComponent} from './views/reports/reports.component'
+import {UsersComponent} from './views/users/users.component'
 
 const routes: Routes = [
   {component:LoginComponent, path:''},
   {component:TemplatesComponent, path:'templates'},
-  {component:TestsComponent, path:'tests'}
+  {component:TestsComponent, path:'tests'},
+  {component:ResultsComponent,path:'results'},
+  {component:ReportsComponent,path:'reports'},
+  {component:UsersComponent,path:'users'}
 ];
 
 @NgModule({

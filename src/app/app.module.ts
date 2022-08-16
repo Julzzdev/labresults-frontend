@@ -24,6 +24,7 @@ import { UsersComponent } from './views/users/users.component';
 import { CardUserComponent } from './views/users/components/card-user/card-user.component';
 import { ReportsComponent } from './views/reports/reports.component';
 import { SettingsComponent } from './views/settings/settings.component';
+import {MasterService} from './services/master.service'
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { SettingsComponent } from './views/settings/settings.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [MasterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
