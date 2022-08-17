@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Template,Field} from './template.interface'
+import {Template} from '../../interfaces/Template.interface'
+import {Test} from '../../interfaces/Test.interface'
 import {Validators,FormBuilder} from '@angular/forms';
 @Component({
   selector: 'app-templates',
@@ -9,7 +10,7 @@ import {Validators,FormBuilder} from '@angular/forms';
 export class TemplatesComponent implements OnInit {
   // variables
   // all new fields
-public newFields:Field[]=[]
+public newFields:Test[]=[]
   // all templates
 public templates:Template[]=[
   {name:'test de un template',code:'tst',fields:[{name:'sangre',unity:'lts',value:'xyz'},{name:'excremento',unity:'pzs',value:'123'}]},

@@ -12,6 +12,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatSelectModule} from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
 //views
 import { NavHeaderComponent } from './components/nav-header/nav-header.component';
 import { LoginComponent } from './views/login/login.component';
@@ -52,7 +54,9 @@ import {MasterService} from './services/master.service'
     MatMenuModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatRadioModule
   ],
   providers: [MasterService],
   bootstrap: [AppComponent]

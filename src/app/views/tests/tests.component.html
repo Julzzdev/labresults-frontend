@@ -1,1 +1,112 @@
-<p>tests works!</p>
+<nav-header></nav-header>
+<section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
+    <div class="col-8 text-white py-5">
+        <div class="d-flex px-3">
+            <!-- user -->
+            <mat-form-field appearance="fill" color="accent">
+                <mat-label>Search</mat-label>
+                <input matInput type="search">
+            </mat-form-field>
+        </div>
+        <div class="px-3 py-2">
+            <button mat-button color="accent" data-bs-toggle="modal" data-bs-target="#templates"
+                (click)="reset(stepper)">Add new</button>
+        </div>
+        <div class="row mx-0 row-cols-1 row-cols-md-8 g-4 ">
+            <!-- card -->
+
+            <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let patient of patients">
+                <card-test [data]="patient"></card-test>
+            </div>
+            <!-- card -->
+        </div>
+    </div>
+
+</section>
+
+<!-- Modal -->
+<div class="modal fade text-white z-index-4" id="templates" tabindex="-1" aria-labelledby="template" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h2 class="modal-title mb-0" id="exampleModalLabel">Tests</h2>
+            </div>
+            <div class="modal-body bg-dark-1">
+
+                <!-- start stepper -->
+                <mat-stepper linear #stepper color="accent">
+                    <mat-step [stepControl]="generalForm" [editable]="false">
+                        <form [formGroup]="generalForm">
+                            <ng-template matStepLabel>Names</ng-template>
+                            <!-- first name -->
+                            <mat-form-field appearance="fill" class="p-2" color="accent">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName" placeholder="Last name, First name">
+                            </mat-form-field>
+                            <!-- last name -->
+                            <mat-form-field appearance="fill" class="p-2" color="accent">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName" placeholder="Last name, First name"
+                                    type="text">
+                            </mat-form-field>
+                            <!-- Date Of Birth -->
+                            <mat-form-field appearance="fill" class="p-2" color="accent">
+                                <mat-label>Date Of Birth</mat-label>
+                                <input matInput formControlName="dateOfBirth" type="date">
+                            </mat-form-field>
+                            <!-- business -->
+                            <mat-form-field appearance="fill" class="p-2" color="accent">
+                                <mat-label>Business</mat-label>
+                                <input matInput formControlName="business" type="text">
+                            </mat-form-field>
+                            <!-- gender --> 
+                            <mat-radio-group aria-label="Select an option" color="accent" formControlName="gender">
+                                <mat-radio-button value="Male" class="px-3">Male</mat-radio-button>
+                                <mat-radio-button value="Female">Female</mat-radio-button>
+                              </mat-radio-group>
+                            <div>
+                                <button mat-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="tests" [editable]="false">
+                        <ng-template matStepLabel>Tests</ng-template>
+                        <!-- tests -->
+                        <mat-form-field appearance="fill" color="accent">
+                            <mat-label>Tests</mat-label>
+                            <mat-select [formControl]="tests" multiple>
+                                <mat-select-trigger>
+                                    {{tests.value?.[0] || ''}}
+                                    <span *ngIf="(tests.value?.length || 0) > 1" class="example-additional-selection">
+                                        (+{{(tests.value?.length || 0) - 1}} {{tests.value?.length === 2 ? 'other' :
+                                        'others'}})
+                                    </span>
+                                </mat-select-trigger>
+                                <mat-option *ngFor="let test of testCatalog" [value]="test">{{test}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button matStepperNext [disabled]="!(tests.value && tests.value.length>0)">Next</button>
+                        </div>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Done</ng-template>
+                        <p>Are you sure to create this patient?</p>
+                        <div>
+                            <button mat-button (click)="reset(stepper)">Reset</button>
+                            <button mat-button (click)="save(generalForm.value,tests.value)"
+                                color="accent">Save</button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+                <!-- end stepper -->
+            </div>
+            <div class="modal-footer bg-dark">
+                <button mat-button data-bs-dismiss="modal" id="cancel-templates">cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>

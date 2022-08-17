@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { User } from './users.interface';
+import { User } from '../../interfaces/users.interface';
 import { MasterService } from '../../services/master.service'
 @Component({
   selector: 'app-users',

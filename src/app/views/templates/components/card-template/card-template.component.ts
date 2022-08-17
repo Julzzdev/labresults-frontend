@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Template } from '../../template.interface';
+import { Template } from '../../../../interfaces/Template.interface'
 
 @Component({
   selector: 'card-template',

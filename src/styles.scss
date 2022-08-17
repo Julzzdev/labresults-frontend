@@ -29,4 +29,10 @@ left: 0;
 .bg-dark-1{
     background-color: #424242 !important
 }
+.modal-backdrop {
+    --bs-backdrop-zindex: 3 !important;
+}
+.z-index-4{
+z-index: 4;
+}
 

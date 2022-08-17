@@ -14,7 +14,7 @@
         </div>
         <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
             <!-- cards -->
-            <div class="col-sm-12 col " *ngFor="let template of templates">
+            <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let template of templates">
                 <card-template [data]="template"></card-template>
             </div>
         </div>
@@ -120,7 +120,7 @@
                 <!-- end stepper -->
             </div>
             <div class="modal-footer bg-dark">
-                <button mat-button data-bs-dismiss="modal" id="cancel-templates">cancel</button>
+                <button mat-button data-bs-dismiss="modal" id="cancel-templates">Cancel</button>
 
             </div>
         </div>
