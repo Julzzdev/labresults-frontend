@@ -1,7 +1,9 @@
 import {Test} from '../interfaces/Test.interface'
 
 export interface Template{
+    _id?:string,
     name:string,
-    code:string,
-    fields:Test[]
+    code?:string,
+    method:string,
+    data:Test[]
 }

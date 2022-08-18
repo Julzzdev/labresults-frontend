@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Template} from '../../interfaces/Template.interface'
 import {Test} from '../../interfaces/Test.interface'
 import {Validators,FormBuilder} from '@angular/forms';
+import {MasterService} from '../../services/master.service'
 @Component({
   selector: 'app-templates',
   templateUrl: './templates.component.html',
@@ -12,14 +13,7 @@ export class TemplatesComponent implements OnInit {
   // all new fields
 public newFields:Test[]=[]
   // all templates
-public templates:Template[]=[
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]},
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]},
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]},
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]},
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]},
-  {name:'test de un template',code:'tst',fields:[{name:'sangre',units:'lts',reference:'xyz'},{name:'excremento',units:'pzs',reference:'123'}]}
-]
+public templates:Template[]=[]
 namesForm = this._formBuilder.group({
   name: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(50)]],
   code: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(10)]],
@@ -39,7 +33,6 @@ public addFieldsGroup=(form:any)=>{
 }
 // reset all forms
 public resetAll=()=>{
- 
   this.newFields=[]
   this.resetTemplateName()
   this.resetFieldsForm()
@@ -64,10 +57,15 @@ public save=(names:any,newFields:any[])=>{
 this.templates.push({...names,fields:newFields})
 this.resetAll();
 }
+// read templetes
+public readTemplates=async()=>{
+  this.templates= this.ms.requestManage(await this.ms.get('templates'))
+}
   // life cycles
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,private ms:MasterService) { }
 
   ngOnInit(): void {
+    this.readTemplates()
   }
 
 }

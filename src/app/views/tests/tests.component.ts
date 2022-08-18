@@ -11,9 +11,7 @@ import { MasterService } from '../../services/master.service'
 export class TestsComponent implements OnInit {
   // variables
   // all templates
-  public patients: Patient[] = [
-    { code: '123456', firstName: 'Juan Carlos', lastName: 'carrillo', dateOfBirth: '2000-08-08', business: 'Bimbo', gender: 'male', tests: [{ name: 'blood', code: 'bld.', fields: [] }] },
-  ]
+  public patients: Patient[] = []
   // names
   generalForm = this._formBuilder.group({
     firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],

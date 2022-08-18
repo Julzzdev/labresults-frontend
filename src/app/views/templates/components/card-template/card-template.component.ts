@@ -8,7 +8,7 @@ import { Template } from '../../../../interfaces/Template.interface'
 })
 export class CardTemplateComponent implements OnInit {
   // variables
-  @Input() data: Template = { name: '', code: '', fields: [] }
+  @Input() data: Template = { name: '', code: '', method:'', data: [] }
   // functions
 
   // life cycles
