@@ -16,6 +16,7 @@ public newFields:Test[]=[]
 public templates:Template[]=[]
 namesForm = this._formBuilder.group({
   name: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(50)]],
+  method: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(10)]],
   code: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(10)]],
 });
 fieldsForm = this._formBuilder.group({

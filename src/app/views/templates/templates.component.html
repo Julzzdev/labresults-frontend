@@ -25,11 +25,15 @@
                     <form [formGroup]="namesForm" class="col-12 row px-2 mx-0">
                         <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                             <mat-label>Name</mat-label>
-                            <input matInput formControlName="name" placeholder="Last name, First name">
+                            <input matInput formControlName="name" placeholder="">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                            <mat-label>Method</mat-label>
+                            <input matInput formControlName="method" placeholder="" type="text">
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                             <mat-label>Code</mat-label>
-                            <input matInput formControlName="code" placeholder="Last name, First name" type="text">
+                            <input matInput formControlName="code" placeholder="" type="text">
                         </mat-form-field>
                     </form>
                     <hr>
@@ -37,15 +41,15 @@
                     <form [formGroup]="fieldsForm" class="bg-dark col-12 row px-2 mx-0 justify-content-start rounded">
                         <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
                             <mat-label>Field Name</mat-label>
-                            <input matInput formControlName="name" placeholder="Test">
+                            <input matInput formControlName="name" placeholder="">
                         </mat-form-field>
                         <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
                             <mat-label>Units</mat-label>
-                            <input matInput formControlName="units" placeholder="Test">
+                            <input matInput formControlName="units" placeholder="">
                         </mat-form-field>
                         <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
                             <mat-label>Reference</mat-label>
-                            <input matInput formControlName="reference" placeholder="Test">
+                            <input matInput formControlName="reference" placeholder="">
                         </mat-form-field>
                         <div class="col-12 col-md-3 d-flex justify-content-end p-2 align-items-end">
                             <button mat-button (click)="resetFieldsForm()">Reset</button>
