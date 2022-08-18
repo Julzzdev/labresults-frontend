@@ -33,8 +33,7 @@ export class TestsComponent implements OnInit {
   public testSelected: string = ''
 
   // reset all forms
-  public reset = (stepper:any) => {
-    stepper.reset()
+  public reset = () => {
     this.generalForm.reset()
     for (let name in this.generalForm.controls) {
       this.generalForm.controls[name].setErrors(null)

@@ -1,128 +1,86 @@
 <nav-header></nav-header>
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
     <div class="col-8 text-white py-5">
-        <div class="d-flex px-3">
-            <!-- user -->
-            <mat-form-field appearance="fill" color="accent">
-                <mat-label>Search</mat-label>
-                <input matInput type="search">
-            </mat-form-field>
-        </div>
-        <div class="px-3 py-2">
-            <button mat-button color="accent" data-bs-toggle="modal" data-bs-target="#templates"
-            (click)="reset(stepper)">Add new</button>
-        </div>
-        <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
-            <!-- cards -->
-            <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let template of templates">
-                <card-template [data]="template"></card-template>
-            </div>
-        </div>
+
+        <!-- tabs -->
+        <mat-tab-group>
+            <mat-tab label="View" class="p-2" id="tab_view">
+                <div class="d-flex px-3">
+                    <!-- user -->
+                    <mat-form-field appearance="fill" color="accent">
+                        <mat-label>Search</mat-label>
+                        <input matInput type="search">
+                    </mat-form-field>
+                </div>
+                <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
+                    <!-- cards -->
+                    <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let template of templates">
+                        <card-template [data]="template"></card-template>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Create" class="p-2">
+                <div class="px-3 py-2 row mx-0">
+                    <!-- names -->
+                    <form [formGroup]="namesForm" class="col-12 row px-2 mx-0">
+                        <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name" placeholder="Last name, First name">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                            <mat-label>Code</mat-label>
+                            <input matInput formControlName="code" placeholder="Last name, First name" type="text">
+                        </mat-form-field>
+                    </form>
+                    <hr>
+                    <!-- fields -->
+                    <form [formGroup]="fieldsForm" class="bg-dark col-12 row px-2 mx-0 justify-content-start rounded">
+                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                            <mat-label>Field Name</mat-label>
+                            <input matInput formControlName="name" placeholder="Test">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                            <mat-label>Units</mat-label>
+                            <input matInput formControlName="units" placeholder="Test">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                            <mat-label>Reference</mat-label>
+                            <input matInput formControlName="reference" placeholder="Test">
+                        </mat-form-field>
+                        <div class="col-12 col-md-3 d-flex justify-content-end p-2 align-items-end">
+                            <button mat-button (click)="resetFieldsForm()">Reset</button>
+                            <button mat-button color="primary" class="mx-1" (click)="addFieldsGroup(fieldsForm)"
+                                [disabled]="fieldsForm.invalid">Add field</button>
+                        </div>
+                    </form>
+                    <!-- table newFields-->
+                    <div class="col-sm-12 col-md-6 col-lg-7 px-2">
+                        <table class="table table-dark table-striped  ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Field</th>
+                                    <th scope="col">Unity</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let field of newFields">
+                                    <td>{{field.name}}</td>
+                                    <td>{{field.units}}</td>
+                                    <td>{{field.reference}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <div class="d-flex justify-content-end">
+                            <!-- button -->
+                            <button [disabled]="newFields.length==0 || namesForm.invalid" mat-button color="primary"
+                                (click)="save(namesForm.value,newFields)">Create template</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 
 </section>
-
-<!-- Modal -->
-<div class="modal fade text-white" id="templates" tabindex="-1" aria-labelledby="template" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h2 class="modal-title mb-0" id="exampleModalLabel">Templates</h2>
-            </div>
-            <div class="modal-body bg-dark-1">
-
-                <!-- start stepper -->
-                <mat-stepper linear #stepper color="accent">
-                    <mat-step [stepControl]="namesForm" [editable]="false">
-                        <form [formGroup]="namesForm">
-                            <ng-template matStepLabel>Name</ng-template>
-                            <mat-form-field appearance="fill" class="p-2" color="accent">
-                                <mat-label>Name</mat-label>
-                                <input matInput formControlName="name" placeholder="Last name, First name">
-                            </mat-form-field>
-                            <mat-form-field appearance="fill" class="p-2" color="accent">
-                                <mat-label>Code</mat-label>
-                                <input matInput formControlName="code" placeholder="Last name, First name" type="text">
-                            </mat-form-field>
-                            <div>
-                                <button mat-button matStepperNext>Next</button>
-                            </div>
-                        </form>
-                    </mat-step>
-                    <mat-step [stepControl]="passForm" [editable]="false">
-                        <div class="d-flex mx-0">
-                            <!-- form add field -->
-                            <form [formGroup]="fieldsForm"
-                                class="bg-dark col-sm-12 col-md-6 col-lg-5 row mx-0 mb-2  justify-content-end rounded">
-                                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-12">
-                                    <mat-label>Field Name</mat-label>
-                                    <input matInput formControlName="name" placeholder="Test">
-                                </mat-form-field>
-                                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-6">
-                                    <mat-label>Unity</mat-label>
-                                    <input matInput formControlName="unity" placeholder="Test">
-                                </mat-form-field>
-                                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-6">
-                                    <mat-label>Value</mat-label>
-                                    <input matInput formControlName="value" placeholder="Test">
-                                </mat-form-field>
-                                <div class="col-12 d-flex justify-content-end p-2">
-                                    <button mat-button (click)="fieldsForm.reset()">Reset</button>
-                                    <button mat-button color="accent" class="mx-1" (click)="addFieldsGroup(fieldsForm)"
-                                        [disabled]="fieldsForm.status=='INVALID'">Add new</button>
-                                </div>
-                            </form>
-                            <!-- table newFields-->
-                            <div class="col-sm-12 col-md-6 col-lg-7 px-2">
-
-                                <table class="table table-dark table-striped  ">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Field</th>
-                                            <th scope="col">Unity</th>
-                                            <th scope="col">Value</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let field of newFields">
-                                            <td>{{field.name}}</td>
-                                            <td>{{field.unity}}</td>
-                                            <td>{{field.value}}</td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-                        <!-- form fake -->
-                        <form [formGroup]="passForm" class="d-none">
-                            <ng-template matStepLabel>Fields</ng-template>
-                            <mat-form-field appearance="fill">
-                                <mat-label>Address</mat-label>
-                                <input matInput formControlName="field" type="number" required>
-                            </mat-form-field>
-                        </form>
-                        <div>
-                            <button mat-button matStepperPrevious>Back</button>
-                            <button mat-button matStepperNext>Next</button>
-                        </div>
-                    </mat-step>
-                    <mat-step>
-                        <ng-template matStepLabel>Done</ng-template>
-                        <p>Are you sure to create this template?</p>
-                        <div>
-                            <button mat-button (click)="reset(stepper)">Reset</button>
-                            <button mat-button (click)="save(namesForm.value,this.newFields)"
-                                color="accent">Save</button>
-                        </div>
-                    </mat-step>
-                </mat-stepper>
-                <!-- end stepper -->
-            </div>
-            <div class="modal-footer bg-dark">
-                <button mat-button data-bs-dismiss="modal" id="cancel-templates">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>

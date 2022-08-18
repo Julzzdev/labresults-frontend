@@ -19,15 +19,15 @@
         <thead>
             <tr>
                 <th scope="col" class="small">Name</th>
-                <th scope="col" class="small">Unity</th>
-                <th scope="col" class="small">value</th>
+                <th scope="col" class="small">Unit</th>
+                <th scope="col" class="small">Reference</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let field of data.fields">
                 <td class="small">{{field.name}}</td>
-                <td class="small">{{field.unity}}</td>
-                <td class="small">{{field.value}}</td>
+                <td class="small">{{field.units}}</td>
+                <td class="small">{{field.reference}}</td>
             </tr>
         </tbody>
     </table>

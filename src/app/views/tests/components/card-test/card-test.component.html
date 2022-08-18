@@ -4,11 +4,11 @@
         
     </div>
     <div class="card-body flex-wrap d-flex p-3">
-        <p class="card-text w-100 text-capitalize">{{data.firstName}} {{data.lastName}} </p>
-        <small>{{data.business}}</small>
+        <p class="card-text w-100 text-capitalize">{{data.firstName}} {{data.lastName}} <small>({{data.dateOfBirth}})</small></p>
+        
         <div class="d-flex justify-content-between w-100">
-            <small>{{data.dateOfBirth}}</small>
             <small>{{data.gender? 'Male':'Female'}}</small>
+            <small>{{data.business}}</small>
         </div>
     </div>
     <table class="table table-dark ">
