@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0;}
+label,span,b,small,h1,h2,h3,h4,h5,h6,p,input, select,a,li,div{
+font-family: 'play' !important;
+font-size: 101%;
+}
+@font-face{
+    font-family: 'play';
+    src: url(./assets/fonts/Play-Regular.ttf);
+}
+.wallpaper-login{
+    background-image: url(./assets/images/wallpaper2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.top-0{
+    top: 0;
+}
+.left-0{
+left: 0;
+}
+.z-index-1{
+    z-index: 1;
+}
+.bg-dark-1{
+    background-color: #424242 !important
+}
+.modal-backdrop {
+    --bs-backdrop-zindex: 3 !important;
+}
+.z-index-4{
+z-index: 4;
+}
+

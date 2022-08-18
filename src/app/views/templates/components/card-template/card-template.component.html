@@ -1,0 +1,36 @@
+<div class="card bg-dark-1  border h-100">
+    <div class="card-header d-flex justify-content-between py-0 align-items-center  " >
+        <small class="small"> {{data.code}} </small>
+        <div>
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>Edit</button>
+                <button mat-menu-item>Delete</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="card-body flex-wrap d-flex p-3">
+
+        <p class="card-text w-100">{{data.name}} </p>
+    </div>
+    <table class="table table-dark ">
+        <thead>
+            <tr>
+                <th scope="col" class="small">Name</th>
+                <th scope="col" class="small">Unit</th>
+                <th scope="col" class="small">Reference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let field of data.fields">
+                <td class="small">{{field.name}}</td>
+                <td class="small">{{field.units}}</td>
+                <td class="small">{{field.reference}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>

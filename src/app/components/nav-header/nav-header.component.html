@@ -1,0 +1,25 @@
+<nav class="navbar position-fixed navbar-expand-lg  top-0 left-0 z-index-1 w-100 " style="background-color: #e91e63;">
+    <!-- Navbar content -->
+    <div class="container-fluid col-8 px-0">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link h1 mb-0 text-light" [routerLink]="['/templates']" routerLinkActive="border-bottom">Templates</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link h1 mb-0 text-light" [routerLink]="['/tests']" routerLinkActive="border-bottom">Pending</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link h1 mb-0 text-light" href="#">Results</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link h1 mb-0 text-light" [routerLink]="['/users']" routerLinkActive="border-bottom">Users</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+</nav>
