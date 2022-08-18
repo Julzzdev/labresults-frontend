@@ -1,5 +1,5 @@
 export interface Test {
-    name: string,
-    units: string,
+    parameter: string,
+    unit: string,
     reference: string
 }
