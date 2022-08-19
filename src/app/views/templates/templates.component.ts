@@ -13,7 +13,7 @@ export class TemplatesComponent implements OnInit {
   // all new fields
 public newFields:Test[]=[]
   // all templates
-public templates:Template[]=[]
+public templates:Template[]=[{"_id":"62fc0fb32fc95d50c434f1cd","name":"PRUEBA DE VIH EN SANGRE","method":"Inmunocromatografía","data":[{"parameter":"PRUEBA DE VIH","unit":"","reference":"NO REACTIVO"}]}]
 namesForm = this._formBuilder.group({
   name: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(50)]],
   method: ['', [Validators.required,Validators.minLength(2), Validators.maxLength(10)]],
