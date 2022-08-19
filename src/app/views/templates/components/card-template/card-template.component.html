@@ -24,9 +24,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let field of data.fields">
-                <td class="small">{{field.name}}</td>
-                <td class="small">{{field.units}}</td>
+            <tr *ngFor="let field of data.data">
+                <td class="small">{{field.parameter}}</td>
+                <td class="small">{{field.unit}}</td>
                 <td class="small">{{field.reference}}</td>
             </tr>
         </tbody>
