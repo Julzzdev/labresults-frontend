@@ -13,3 +13,7 @@ services:
     build: .
     ports:
       - '4200:80'
+networks:
+  default:
+    external:
+      name: 'external'
