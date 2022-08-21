@@ -12,24 +12,39 @@ export class MasterService {
   public host: string = environment.host
   private headers: object = { headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}   }
 
-  // functions
-  public get = async (section: string) => {
-    debugger
-    let x=await axios.get(`${this.host}${section}`, this.headers)
-    debugger
-    return x
+  // function get
+  public get = async (section: string) => {   
+    return await axios.get(`${this.host}${section}`, this.headers)
+  }
+  // functions get id
+  public getById = async (section: string,id:string) => {   
+    return await axios.get(`${this.host}${section}/${id}`, this.headers)
+  }
+  // function post
+  public post = async (section: string,body:any) => {   
+    return await axios.post(`${this.host}${section}`, body,this.headers)
+  }
+  // functions patch
+  public patch = async (section: string,body:any) => {   
+    return await axios.patch(`${this.host}${section}/${body['_id']}`, body,this.headers)
+  }
+  // function delete 
+  public delete = async (section: string,id:string) => {   
+    return await axios.delete(`${this.host}${section}/${id}`, this.headers)
   }
   // control request
   public requestManage = (res: any) => {
-    debugger
+    
     if (res) {
-      if (res == 200) {
+      if (res.status == 200 || res.status == 201) {
         return res.data
       } else {
         this.showAlert('We had a problem', res.error, 'warning')
+        return null
       }
     } else {
       this.showAlert('API no response', 'The api did not respond', 'warning')
+      return null
     }
   }
 
@@ -44,6 +59,7 @@ export class MasterService {
   }
   // confirm alert
   public confirmAlert = (title: string, text: string, button: string, callback: any) => {
+    
     Swal.fire({
       title: title,
       text: text,
@@ -53,7 +69,6 @@ export class MasterService {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        Swal.fire('Success!', '', 'success')
         callback(true)
       }
     })
