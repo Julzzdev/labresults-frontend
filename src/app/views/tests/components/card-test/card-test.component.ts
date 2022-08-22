@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Patient } from '../../../../interfaces/Patient.interface'
-
+import { MasterService } from '../../../../services/master.service'
 @Component({
   selector: 'card-test',
   templateUrl: './card-test.component.html',
@@ -8,12 +8,37 @@ import { Patient } from '../../../../interfaces/Patient.interface'
 })
 export class CardTestComponent implements OnInit {
   // variables
-  @Input() data: Patient = {code:'123456', firstName: 'Juan Carlos', lastName: 'Carrillo',dateOfBirth:'2000-08-08',business:'Bimbo',gender:'male',tests:[] }
-
+  @Input() data: Patient = {
+    "secondname": "",
+    "phone": "",
+    "firstname": "",
+    "lastname1": "",
+    "lastname2": "",
+    "dateOfBirth": "",
+    "business": "",
+    "gender": true,
+    "age": 0,
+    "email": "",
+    "tests": []
+  }
+  // emiter to templates component
+  @Output() cardPatient$: EventEmitter<Object> = new EventEmitter()
   // functions
-
+  public edit=()=>{
+    debugger
+    this.cardPatient$.emit({message:'edit',data:this.data})
+  }
+    // functions
+    public delete=(data:any)=>{
+      this.ms.confirmAlert('Delete patient','Are you sure to delete this patient?','Delete',(res:boolean)=>{
+        if(res){
+          debugger
+          this.cardPatient$.emit({message:'delete',id:data._id})
+        }
+      })
+    }
   // life cycles
-  constructor() { }
+  constructor( private ms: MasterService) { }
 
   ngOnInit(): void {
   }

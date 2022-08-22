@@ -1,1 +1,20 @@
-<p>card-user works!</p>
+<div class="card bg-dark-1  border h-100">
+    <div class="card-header d-flex justify-content-end py-0 align-items-center  " >
+        <div>
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit()">Edit</button>
+                <button mat-menu-item (click)="delete(data)">Delete</button>
+            </mat-menu>
+        </div>
+        
+    </div>
+    <div class="card-body flex-wrap d-flex p-3">
+        <p class="card-text w-100 text-capitalize">
+            {{data.username}}  {{data.isAdmin?'( Admin )':''}} 
+        </p>
+       
+    </div>
+</div>

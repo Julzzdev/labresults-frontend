@@ -4,8 +4,9 @@
     <div class="col-8 text-white py-5">
 
         <button mat-button color="accent" (click)="resetAll()">
-            {{formView?'Back to View all templates':'Go to Create new template'}}
+            {{formView?'Back to View all templates':'Go to create a new template'}}
         </button>
+        <!-- view cards -->
         <section *ngIf="!formView">
             <div class="d-flex px-3">
                 <!-- user -->
@@ -21,6 +22,7 @@
                 </div>
             </div>
         </section>
+        <!-- view form -->
         <section class="px-3 py-2 row mx-0" *ngIf="formView">
             <!-- names -->
             <form [formGroup]="namesForm" class="col-12 row px-2 mx-0">
@@ -81,7 +83,7 @@
                                 </button>
                             </td>
                             <td>
-                                <button mat-button *ngIf="fieldSelected!=i" >
+                                <button mat-button *ngIf="fieldSelected!=i" (click)="newFields.splice(i,1) ">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>

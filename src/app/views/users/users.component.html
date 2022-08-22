@@ -1,115 +1,27 @@
 <nav-header></nav-header>
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
     <div class="col-8 text-white py-5">
-        <div class="d-flex px-3">
-            <!-- user -->
-            <mat-form-field appearance="fill" color="accent">
-                <mat-label>Search</mat-label>
-                <input matInput type="search">
-            </mat-form-field>
-        </div>
-        <div class="px-3 py-2">
-            <button mat-button color="accent" data-bs-toggle="modal" data-bs-target="#templates"
-            (click)="reset(stepper)">Add new</button>
-        </div>
-        <div class="row mx-0 row-cols-1 row-cols-md-8 g-4 ">
-            <!-- table -->
-            <table class="table table-dark table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Password</th>
-                    <th scope="col-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let user of users;let i=index" >
-                    <td *ngIf="userSelected!=i">{{user.firstName}}</td>
-                    <td *ngIf="userSelected==i"><input [(ngModel)]="user.firstName" class="form-control"></td>
-                    <td *ngIf="userSelected!=i">{{user.lastName}}</td>
-                    <td *ngIf="userSelected==i"><input [(ngModel)]="user.lastName" class="form-control"></td>
-                    <td *ngIf="userSelected!=i">{{user.password}}</td>
-                    <td *ngIf="userSelected==i"><input [(ngModel)]="user.password" class="form-control"></td>
-                    <td *ngIf="userSelected!=i">
-                        <button mat-button (click)="deleteUser(i)"><mat-icon >delete</mat-icon></button>
-                        <button mat-button><mat-icon (click)="selectUser(i)">edit</mat-icon></button>
-                    </td>
-                    <td *ngIf="userSelected==i">
-                        <button mat-button color="accent" (click)="updateUser(user)">save</button>
-                        <button mat-button (click)="userSelected = -1">Reset</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            <!-- end table -->
-        </div>
+        <button mat-button color="accent" (click)="reset()">
+            {{formView?'Back to View all patients':'Go to create a new patient'}}
+        </button>
+        <!-- view cards -->
+        <section *ngIf="!formView">
+            <div class="d-flex px-3">
+                <!-- user -->
+                <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Search</mat-label>
+                    <input matInput type="search">
+                </mat-form-field>
+            </div>
+            <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
+                <!-- cards -->
+                <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let user of users">
+                    <card-user (cardUser$)="listenerUser($event)" [data]="user"></card-user>
+                </div>
+            </div>
+        </section>
+        <!--  -->
     </div>
 
 </section>
 
-<!-- Modal -->
-<div class="modal fade text-white" id="templates" tabindex="-1" aria-labelledby="template" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h2 class="modal-title mb-0" id="exampleModalLabel">Users</h2>
-            </div>
-            <div class="modal-body bg-dark-1">
-
-                <!-- start stepper -->
-                <mat-stepper linear #stepper color="accent">
-                    <mat-step [stepControl]="namesForm" [editable]="false">
-                        <form [formGroup]="namesForm">
-                            <ng-template matStepLabel>Names</ng-template>
-                            <mat-form-field appearance="fill" class="p-2" color="accent">
-                                <mat-label>First Name</mat-label>
-                                <input matInput formControlName="firstName" placeholder="Last name, First name">
-                            </mat-form-field>
-                            <mat-form-field appearance="fill" class="p-2" color="accent">
-                                <mat-label>Last Name</mat-label>
-                                <input matInput formControlName="lastName" placeholder="Last name, First name" type="text">
-                            </mat-form-field>
-                            <div>
-                                <button mat-button matStepperNext>Next</button>
-                            </div>
-                        </form>
-                    </mat-step>
-                    <mat-step [stepControl]="passwordForm" [editable]="false">
-                        <div class="d-flex mx-0">
-                            <!-- form add field -->
-                            <form [formGroup]="passwordForm">
-                                <ng-template matStepLabel>Settings</ng-template>
-                                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-12">
-                                    <mat-label>Password</mat-label>
-                                    <input matInput formControlName="password" placeholder="Test" >
-                                </mat-form-field>
-                                
-                            </form>
-                            
-                        </div>
-                       
-                        <div>
-                            <button mat-button matStepperPrevious>Back</button>
-                            <button mat-button matStepperNext>Next</button>
-                        </div>
-                    </mat-step>
-                    <mat-step>
-                        <ng-template matStepLabel>Done</ng-template>
-                        <p>Are you sure to create this user?</p>
-                        <div>
-                            <button mat-button (click)="reset(stepper)">Reset</button>
-                            <button mat-button (click)="save(namesForm.value,passwordForm.value)"
-                                color="accent">Save</button>
-                        </div>
-                    </mat-step>
-                </mat-stepper>
-                <!-- end stepper -->
-            </div>
-            <div class="modal-footer bg-dark">
-                <button mat-button data-bs-dismiss="modal" id="cancel-users">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
