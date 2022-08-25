@@ -2,7 +2,7 @@
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
     <div class="col-8 text-white py-5">
         <button mat-button color="accent" (click)="reset()">
-            {{formView?'Back to View all patients':'Go to create a new patient'}}
+            {{formView?'Back to View all patients':'Go to create a new user'}}
         </button>
         <!-- view cards -->
         <section *ngIf="!formView">
@@ -20,7 +20,38 @@
                 </div>
             </div>
         </section>
-        <!--  -->
+        <!-- form view -->
+        <section class="px-3 py-2 row mx-0" *ngIf="formView">
+            <!-- names -->
+            <form [formGroup]="userForm" class="col-12 row px-2 mx-0">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>User name</mat-label>
+                    <input matInput formControlName="username" placeholder="">
+                </mat-form-field>
+                 <!-- password -->
+                <mat-form-field *ngIf="!userForm.value['id']" appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" placeholder="" type="password">
+                </mat-form-field>
+                <!-- admin -->
+                <div appearance="fill" class="p-2 col-sm-6 col-md-3 d-flex flex-wrap" color="accent">
+                    <mat-label class="w-100">Is Admin</mat-label>
+                    <mat-checkbox class="example-margin" formControlName="isAdmin"></mat-checkbox>
+                    
+                </div>
+                <!-- dark mode -->
+                <div appearance="fill" class="p-2 col-sm-6 col-md-3 d-flex flex-wrap" color="accent">
+                    <mat-label class="w-100">Dark Mode</mat-label>
+                    <mat-checkbox class="example-margin" formControlName="darkMode"></mat-checkbox>
+                    
+                </div>
+            </form>
+            <div class="d-flex justify-content-end">
+                <!-- button tests.length==0 || -->
+                <button class="" [disabled]="userForm.invalid" mat-button color="accent"
+                    (click)="save(userForm.value)">{{userForm.value['id']?'Save':'Create'}}</button>
+            </div>
+        </section>
     </div>
 
 </section>

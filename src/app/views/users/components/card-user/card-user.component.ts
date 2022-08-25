@@ -8,9 +8,10 @@ import { MasterService } from '../../../../services/master.service'
 })
 export class CardUserComponent implements OnInit {
 // variables
+public editMode:boolean=false
+// 
 @Input() data: User = {
   "username": "",
-  "password": "",
   "isAdmin": "",
   "darkMode": ""
 }
@@ -18,15 +19,15 @@ export class CardUserComponent implements OnInit {
 @Output() cardUser$: EventEmitter<Object> = new EventEmitter()
 // functions
 public edit=()=>{
-  debugger
+  
   this.cardUser$.emit({message:'edit',data:this.data})
 }
   // functions
   public delete=(data:any)=>{
     this.ms.confirmAlert('Delete user','Are you sure to delete this user?','Delete',(res:boolean)=>{
       if(res){
-        debugger
-        this.cardUser$.emit({message:'delete',id:data._id})
+        
+        this.cardUser$.emit({message:'delete',id:data.id})
       }
     })
   }

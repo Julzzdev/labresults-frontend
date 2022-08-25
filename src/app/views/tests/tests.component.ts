@@ -12,6 +12,9 @@ import { MasterService } from '../../services/master.service'
 })
 export class TestsComponent implements OnInit {
   // variables
+  public pagination={startDate:'',endDate:'',page:1,numPages:1}
+  // 
+  public testList:Template[]=[]
   // 
   public formView: boolean = false
   // all templates
@@ -20,28 +23,42 @@ export class TestsComponent implements OnInit {
   public generalForm = this._formBuilder.group({
     _id: ['', []],
     firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    secondname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    secondname: ['', [Validators.minLength(1), Validators.maxLength(50)]],
     lastname1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    lastname2: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    lastname2: ['', [Validators.minLength(1), Validators.maxLength(50)]],
     age: ['', [Validators.required]],
-    business: ['', [Validators.required]],
+    dateOfBirth: ['', Validators.required],
+    business: ['', []],
     gender: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required]],
+    email: ['', [Validators.email]],
+    phone: ['', []],
   });
 
   public tests: Template[] = [];
+  // 
+  public templates: Template[] = [];
 
-  testCatalog: string[] = [];
+  public testCatalog: string[] = [];
 
   //  user selected
-  public userSelected: number = -1
+  public patientSelected: Patient = {
+    firstname: '',
+    lastname1: '',
+    lastname2: '',
+    age: 0,
+    dateOfBirth: '',
+    business: '',
+    gender: false,
+    secondname: '',
+    email: '',
+    phone: '',
+    tests: []
+  }
   // test selected
   public testSelected: string = ''
   // functions
   // reset all forms
   public resetAll = () => {
-    this.tests = []
     this.formView = !this.formView
     this.reset()
     // this.resetTemplateName()
@@ -58,8 +75,8 @@ export class TestsComponent implements OnInit {
   }
 
   // select an user
-  public selectUser = (index: number) => {
-    this.userSelected = index
+  public selectUser = (patient: Patient) => {
+    this.patientSelected = patient
   }
   //  add a test
   public addTest = (test: string) => {
@@ -76,10 +93,10 @@ export class TestsComponent implements OnInit {
         this.deletePatient(e.id)
         break;
       case 'edit':
-        debugger
+        
         this.formView = true
         this.generalForm.setValue({
-          _id:e.data['_id'],
+          _id: e.data['_id'],
           firstname: e.data['firstname'],
           secondname: e.data['secondname'],
           lastname1: e.data['lastname1'],
@@ -127,12 +144,11 @@ export class TestsComponent implements OnInit {
       }
     } else {
       // create
-      debugger
+      
       let data = this.ms.requestManage(await this.ms.post('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
-        dateOfBirth: '2020-02-02',
         tests: tests
       }))
       if (data) {
@@ -143,11 +159,59 @@ export class TestsComponent implements OnInit {
     }
     this.resetAll();
   }
+  // read templetes
+  public readTemplates = async () => {
+    const data = this.ms.requestManage(await this.ms.get('templates'))
+    if (data) {
+      this.templates = data
+      for (let index = 0; index < this.templates.length; index++) {
+        this.templates[index]['selected'] = false
+
+      }
+
+    }
+  }
+  // extract some atribute
+  public extractAtribute = (data: any[], name: string) => {
+    return data.map(el => el[name])
+  }
+  // get selecteds
+  public getTemplatesSelecteds = () => {
+    this.tests = this.extractAtribute(this.templates.filter(el => el['selected']),'_id')
+    
+  }
+  // get detail
+  public getDetail=async(patient:Patient)=>{
+    this.patientSelected=patient
+    const data = this.ms.requestManage(await this.ms.get('patients/'+patient._id))
+    if (data) {
+      this.testList=data.tests
+    }
+  }
+  // read results
+  // public readResults = async () => {
+  //   const data = this.ms.requestManage(
+  //     await this.ms.get(`reports?startDate=${this.pagination.startDate}&endDate=${this.pagination.endDate}&page=${this.pagination.page}`))
+  //   if (data) {
+  //     this.results = data
+  //   }
+  // }
+  // format date
+  public concatZero(number:number):string{
+    return number<10? '0'+number:''+number
+  }
+  
   // life cycles
-  constructor(private _formBuilder: FormBuilder, private ms: MasterService) { }
+  constructor(private _formBuilder: FormBuilder, private ms: MasterService) { 
+    
+  }
 
   ngOnInit(): void {
     this.readPatients()
+    this.readTemplates()
+    const date = new Date();
+    this.pagination.startDate=`${date.getFullYear()}-${this.concatZero(date.getMonth() + 1)}-${this.concatZero(date.getDate())}`
+    this.pagination.endDate=this.pagination.startDate
   }
 
 }

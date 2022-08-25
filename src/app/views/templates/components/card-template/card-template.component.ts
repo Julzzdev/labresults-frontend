@@ -33,7 +33,7 @@ public edit=()=>{
   public delete=(data:any)=>{
     this.ms.confirmAlert('Delete Template','Are you sure to delete this template?','Delete',(res:boolean)=>{
       if(res){
-        debugger
+        
         this.cardTemplate$.emit({message:'delete',id:data._id})
       }
     })

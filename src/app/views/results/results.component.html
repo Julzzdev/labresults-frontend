@@ -1,1 +1,38 @@
-<p>results works!</p>
+<nav-header></nav-header>
+<section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
+    <div class="col-8 text-white py-5">
+        
+        <div class="d-flex justify-content-start p-2">
+            <button mat-button (click)="returnPending()">Return to Pending</button>
+        </div>
+        <!-- table -->
+        <div class="col-sm-12 col overflow-auto ">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Parameter</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Reference</th>
+                        <th scope="col">Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let param of data.data">
+                        <td>{{param.parameter}}</td>
+                        <td>{{param.unit}}</td>
+                        <td>{{param.reference}}</td>
+                        <td>
+                            <input type="text" class="form-control w-50 bg-secondary border-0 text-left text-white"
+                                [(ngModel)]="param.result">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end p-2">
+                <button mat-button (click)="save()">Save</button>
+            </div>
+            <!-- table -->
+        </div>
+    </div>
+
+</section>

@@ -26,7 +26,7 @@ export class MasterService {
   }
   // functions patch
   public patch = async (section: string,body:any) => {   
-    return await axios.patch(`${this.host}${section}/${body['_id']}`, body,this.headers)
+    return await axios.patch(`${this.host}${section}/${body['_id'] || body['id']}`, body,this.headers)
   }
   // function delete 
   public delete = async (section: string,id:string) => {   
@@ -36,6 +36,7 @@ export class MasterService {
   public requestManage = (res: any) => {
     
     if (res) {
+
       if (res.status == 200 || res.status == 201) {
         return res.data
       } else {
