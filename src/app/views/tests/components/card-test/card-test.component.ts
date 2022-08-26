@@ -11,9 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CardTestComponent implements OnInit {
   // variables
-  @Input() pendingList: Template[] = []
-  // 
-  @Input() capturedList: any[] = []
+  @Input() pendingList: any[] = []
+ 
   // user id
   @Input() patientSelected: Patient = {
     firstname: '',
@@ -29,9 +28,8 @@ export class CardTestComponent implements OnInit {
     tests: []
   }
   // functions
-  public goToCapture = (test: Template, patient: Patient) => {
-    
-    this.route.navigate(['/results/'+test._id+'/'+patient._id])
+  public goTo = (section:string,test: Template, patient: Patient) => {
+    this.route.navigate([`/${section}/${test._id}/${patient._id}`])
   }
 
   // life cycles

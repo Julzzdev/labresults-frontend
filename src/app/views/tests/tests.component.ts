@@ -12,11 +12,11 @@ import { MasterService } from '../../services/master.service'
 })
 export class TestsComponent implements OnInit {
   // variables
-  public pagination={startDate:'',endDate:'',page:1,numPages:1}
+  public pagination = { startDate: '', endDate: '', page: 1, numPages: 1 }
   // 
-  public pendingList:any[]=[]
+  public pendingList: any[] = []
   // 
-  public capturedList:any[]=[]
+  public capturedList: any[] = []
   // 
   public formView: boolean = false
   // all templates
@@ -95,7 +95,7 @@ export class TestsComponent implements OnInit {
         this.deletePatient(e.id)
         break;
       case 'edit':
-        
+
         this.formView = true
         this.generalForm.setValue({
           _id: e.data['_id'],
@@ -146,7 +146,7 @@ export class TestsComponent implements OnInit {
       }
     } else {
       // create
-      
+
       let data = this.ms.requestManage(await this.ms.post('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
@@ -179,30 +179,25 @@ export class TestsComponent implements OnInit {
   }
   // get selecteds
   public getTemplatesSelecteds = () => {
-    this.tests = this.extractAtribute(this.templates.filter(el => el['selected']),'_id')
-    
+    this.tests = this.extractAtribute(this.templates.filter(el => el['selected']), '_id')
+
   }
   // get detail
-  public getDetail=async(patient:Patient)=>{
-    this.patientSelected=patient
-    const data = this.ms.requestManage(await this.ms.get('reports/patient/'+patient._id))
+  public getDetail = async (patient: Patient) => {
+    this.patientSelected = patient
+    this.pendingList = []
+    this.capturedList = []
+    const data = this.ms.requestManage(await this.ms.get('patients/' + patient._id))
+    const reports = this.ms.requestManage(await this.ms.get('reports/patient/' + patient._id))
     if (data) {
-      debugger
-      patient=data[0].patient
-      this.pendingList=data[0].patient.tests
-      this.capturedList=data[0].results
-      // edit pending list
-      for (let index = 0; index < this.capturedList.length; index++) {
 
-        const captured=this.pendingList.findIndex(el=>el['_id']==this.capturedList[index]['testId']['_id'])
-        debugger
-        if(captured>=0){
-          this.pendingList.splice(captured,1)
-          debugger
-          const data = this.ms.requestManage(await this.ms.patch('patients/'+patient._id,patient))
-          debugger
-        }
-        
+      // patient=data[0].patient
+      this.pendingList = data.tests
+      this.capturedList = reports
+      // edit pending list
+      for (let index = 0; index < this.pendingList.length; index++) {
+        const captured = this.capturedList.findIndex((el: any) => this.pendingList[index]['_id'] == el.results[0]['testId']['_id'])
+        this.pendingList[index]['isCaptured'] = captured >= 0 ? true : false
       }
     }
   }
@@ -215,21 +210,21 @@ export class TestsComponent implements OnInit {
   //   }
   // }
   // format date
-  public concatZero(number:number):string{
-    return number<10? '0'+number:''+number
+  public concatZero(number: number): string {
+    return number < 10 ? '0' + number : '' + number
   }
-  
+
   // life cycles
-  constructor(private _formBuilder: FormBuilder, private ms: MasterService) { 
-    
+  constructor(private _formBuilder: FormBuilder, private ms: MasterService) {
+
   }
 
   ngOnInit(): void {
     this.readPatients()
     this.readTemplates()
     const date = new Date();
-    this.pagination.startDate=`${date.getFullYear()}-${this.concatZero(date.getMonth() + 1)}-${this.concatZero(date.getDate())}`
-    this.pagination.endDate=this.pagination.startDate
+    this.pagination.startDate = `${date.getFullYear()}-${this.concatZero(date.getMonth() + 1)}-${this.concatZero(date.getDate())}`
+    this.pagination.endDate = this.pagination.startDate
   }
 
 }

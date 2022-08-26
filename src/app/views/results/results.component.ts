@@ -38,9 +38,9 @@ export class ResultsComponent implements OnInit {
     this.router.navigate(['/tests'])
   }
   // save
-  public save = () => {
+  public save = async () => {
     if(this.areValidValues()){
-      const data = this.ms.requestManage(this.ms.post('reports',{
+      const data = this.ms.requestManage(await this.ms.post('reports',{
         patient:this.userId ,
         results:
         [
@@ -62,11 +62,11 @@ export class ResultsComponent implements OnInit {
   // check all results are valid
   public areValidValues = (): boolean => {
     for (let index = 0; index < this.data.data.length; index++) {
-      debugger
+      
       this.slaveForm.setValue({
         ...this.data.data[index]
       })
-      debugger
+      
       if (this.slaveForm.invalid) {
         return false
       }
