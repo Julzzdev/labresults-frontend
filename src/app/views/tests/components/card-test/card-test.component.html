@@ -1,7 +1,13 @@
 <ul class="list-group list-group-flush ">
-    <li class="list-group-item bg-dark text-white d-flex justify-content-between" *ngFor="let test of testList">
+    <li class="list-group-item bg-dark text-white d-flex justify-content-between" *ngFor="let test of pendingList">
          <span>{{test.name}} {{test.code?'( ' +test.code+ ' )':''}}</span> 
          <button mat-button color="accent" (click)="goToCapture(test,patientSelected)" 
          >Capture</button>
         </li>
+        <!-- captured -->
+        <li class="list-group-item bg-dark text-white d-flex justify-content-between" *ngFor="let test of capturedList">
+            <span>{{test.testId.name}} {{test.testId.code?'( ' +test.testId.code+ ' )':''}}</span> 
+            <button mat-button color="accent" (click)="goToCapture(test,patientSelected)" 
+            >View detail</button>
+           </li>
 </ul>

@@ -11,7 +11,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CardTestComponent implements OnInit {
   // variables
-  @Input() testList: Template[] = []
+  @Input() pendingList: Template[] = []
+  // 
+  @Input() capturedList: any[] = []
   // user id
   @Input() patientSelected: Patient = {
     firstname: '',

@@ -36,7 +36,7 @@ export class MasterService {
   public requestManage = (res: any) => {
     
     if (res) {
-
+debugger
       if (res.status == 200 || res.status == 201) {
         return res.data
       } else {

@@ -14,7 +14,9 @@ export class TestsComponent implements OnInit {
   // variables
   public pagination={startDate:'',endDate:'',page:1,numPages:1}
   // 
-  public testList:Template[]=[]
+  public pendingList:any[]=[]
+  // 
+  public capturedList:any[]=[]
   // 
   public formView: boolean = false
   // all templates
@@ -183,9 +185,25 @@ export class TestsComponent implements OnInit {
   // get detail
   public getDetail=async(patient:Patient)=>{
     this.patientSelected=patient
-    const data = this.ms.requestManage(await this.ms.get('patients/'+patient._id))
+    const data = this.ms.requestManage(await this.ms.get('reports/patient/'+patient._id))
     if (data) {
-      this.testList=data.tests
+      debugger
+      patient=data[0].patient
+      this.pendingList=data[0].patient.tests
+      this.capturedList=data[0].results
+      // edit pending list
+      for (let index = 0; index < this.capturedList.length; index++) {
+
+        const captured=this.pendingList.findIndex(el=>el['_id']==this.capturedList[index]['testId']['_id'])
+        debugger
+        if(captured>=0){
+          this.pendingList.splice(captured,1)
+          debugger
+          const data = this.ms.requestManage(await this.ms.patch('patients/'+patient._id,patient))
+          debugger
+        }
+        
+      }
     }
   }
   // read results

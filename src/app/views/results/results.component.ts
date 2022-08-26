@@ -40,7 +40,16 @@ export class ResultsComponent implements OnInit {
   // save
   public save = () => {
     if(this.areValidValues()){
-      const data = this.ms.requestManage(this.ms.post('reports',{patient:this.userId ,results:this.data.data,capturedBy:'6303db126b0776813cf25796'}))
+      const data = this.ms.requestManage(this.ms.post('reports',{
+        patient:this.userId ,
+        results:
+        [
+          {
+            "testId": this.id,
+            "data": this.data.data
+          }
+        ],
+        capturedBy:'6303db126b0776813cf25796'}))
       if (data) {
         // success
         this.ms.showAlert('Success', 'Results captured succefully', 'success')
