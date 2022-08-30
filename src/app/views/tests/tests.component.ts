@@ -137,7 +137,6 @@ export class TestsComponent implements OnInit {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
-        dateOfBirth: '2020-02-02',
         tests: tests
       }))
       if (data) {

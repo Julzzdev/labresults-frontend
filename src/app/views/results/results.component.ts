@@ -49,7 +49,7 @@ export class ResultsComponent implements OnInit {
             "data": this.data.data
           }
         ],
-        capturedBy:'6303db126b0776813cf25796'}))
+        capturedBy:this.ms.user.id}))
       if (data) {
         // success
         this.ms.showAlert('Success', 'Results captured succefully', 'success')

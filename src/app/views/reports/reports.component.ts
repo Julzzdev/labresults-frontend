@@ -24,7 +24,7 @@ export class ReportsComponent implements OnInit {
   public getDetail = async (id: string) => {
     const data = this.ms.requestManage(await this.ms.get('reports/patient/' + id))
     if (data) {
-      debugger
+      
       this.data=data
     }
 
