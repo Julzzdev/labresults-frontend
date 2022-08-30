@@ -1,16 +1,19 @@
 <nav class="navbar position-fixed navbar-expand-lg  top-0 left-0 z-index-1 w-100 " style="background-color: #FF454E;">
   <!-- Navbar content -->
-  <div class="container-fluid col-8 px-0 ">
-    <img src="../../../assets/images/logo.jpeg" height="40" class="rounded-3  mr-2">
+  <div class="container-fluid col-8 px-0 d-flex justify-content-between">
+    <!-- session -->
     <div class="d-flex flex-wrap">
       <label class="mb-0 text-white p-2 w-100" [matMenuTriggerFor]="menu">{{user.username}} <mat-icon>
-          expand_more
-        </mat-icon></label>
-      <mat-slide-toggle [checked]="user.darkMode" class="text-white">Dark Mode</mat-slide-toggle>
+        expand_morex
+      </mat-icon></label>
+      <!-- <mat-slide-toggle [checked]="user.darkMode" class="text-white">Dark Mode</mat-slide-toggle> -->
     </div>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logout()">Logout</button>
+      <button mat-menu-item >Active dark mode</button>
     </mat-menu>
+    <!-- icon -->
+    <img src="../../../assets/images/logo.jpeg" height="40" class="rounded-3  mr-2">
     <!-- nav -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

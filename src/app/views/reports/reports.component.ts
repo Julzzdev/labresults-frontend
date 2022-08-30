@@ -29,10 +29,22 @@ export class ReportsComponent implements OnInit {
     }
 
   }
+  // send email
+  public sendEmail=async(id:string)=>{
+    debugger
+    // this.data[0]['patient']['email']
+    const data = this.ms.requestManage(await this.ms.post('mailer/',{
+      patientEmail:'linkarlozcore@hotmail.com',
+      patientId:this.userId
+    }))
+    if (data) {
+      debugger
+      this.data=data
+    }
+  }
   // life cycles
   constructor(private route: ActivatedRoute, private ms: MasterService) {
     this.userId = this.route.snapshot.params['userId']
-    this.id = this.route.snapshot.params['id']
   }
 
   ngOnInit(): void {
