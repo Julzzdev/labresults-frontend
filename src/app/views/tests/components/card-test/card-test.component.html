@@ -1,10 +1,10 @@
 <ul class="list-group list-group-flush ">
     <li class="list-group-item bg-dark text-white d-flex justify-content-between" *ngFor="let test of pendingList">
-         <span>{{test.name}} {{test.code?'( ' +test.code+ ' )':''}}</span> 
-         <button mat-button color="accent" *ngIf="!test.isCaptured" (click)="goTo('results',test,patientSelected)" 
-         >Capture</button>
-         <button mat-button color="accent" *ngIf="test.isCaptured" (click)="goTo('reports',test,patientSelected)" 
-         >View report</button>
-        </li>
-        
+        <span>{{test.name}} {{test.code?'( ' +test.code+ ' )':''}}</span>
+        <button mat-stroked-button color="accent" *ngIf="!test.isCaptured"
+            (click)="goTo('results',test,patientSelected)">Capture</button>
+        <button mat-stroked-button color="accent" *ngIf="test.isCaptured" (click)="goTo('reports',test,patientSelected)">View
+            report</button>
+    </li>
+
 </ul>

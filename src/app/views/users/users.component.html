@@ -1,16 +1,18 @@
 <nav-header></nav-header>
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
     <div class="col-8 text-white py-5">
-        <button mat-button color="accent" (click)="reset()">
-            {{formView?'Back to View all patients':'Go to create a new user'}}
-        </button>
+        <div class="px-3">
+            <button mat-stroked-button color="accent" (click)="reset()">
+                {{formView?'Back to View all patients':'Go to create a new user'}}
+            </button>
+        </div>
         <!-- view cards -->
         <section *ngIf="!formView">
             <div class="d-flex px-3">
                 <!-- user -->
                 <mat-form-field appearance="fill" color="accent">
                     <mat-label>Search</mat-label>
-                    <input matInput type="search">
+                    <input matInput type="search" [(ngModel)]="filterValue" (keyup)="filter(filterValue,$event)">
                 </mat-form-field>
             </div>
             <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
@@ -48,8 +50,8 @@
             </form>
             <div class="d-flex justify-content-end">
                 <!-- button tests.length==0 || -->
-                <button class="" [disabled]="userForm.invalid" mat-button color="accent"
-                    (click)="save(userForm.value)">{{userForm.value['id']?'Save':'Create'}}</button>
+                <button class="" [disabled]="userForm.invalid || loading" mat-button color="accent"
+                    (click)="save(userForm.value)" >{{userForm.value['id']?'Save':'Create'}}</button>
             </div>
         </section>
     </div>

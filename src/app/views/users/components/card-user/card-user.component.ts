@@ -12,8 +12,8 @@ public editMode:boolean=false
 // 
 @Input() data: User = {
   "username": "",
-  "isAdmin": "",
-  "darkMode": ""
+  "isAdmin": false,
+  "darkMode": false
 }
 // emiter to templates component
 @Output() cardUser$: EventEmitter<Object> = new EventEmitter()

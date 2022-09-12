@@ -29,7 +29,12 @@ export class CardTestComponent implements OnInit {
   }
   // functions
   public goTo = (section:string,test: Template, patient: Patient) => {
-    this.route.navigate([`/${section}/${patient._id}`])
+    if(section=='results'){
+      this.route.navigate([`/${section}/${test._id}/${patient._id}`])
+    }else{
+      this.route.navigate([`/${section}/${patient._id}`])
+    }
+    
   }
 
   // life cycles

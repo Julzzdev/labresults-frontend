@@ -3,16 +3,18 @@
 
     <div class="col-8 text-white py-5">
 
-        <button mat-button color="accent" (click)="resetAll()">
-            {{formView?'Back to View all templates':'Go to create a new template'}}
-        </button>
+        <div class="px-3">
+            <button mat-stroked-button color="accent" (click)="resetAll()">
+                {{formView?'Back to View all templates':'Go to create a new template'}}
+            </button>
+        </div>
         <!-- view cards -->
         <section *ngIf="!formView">
             <div class="d-flex px-3">
                 <!-- user -->
                 <mat-form-field appearance="fill" color="accent">
                     <mat-label>Search</mat-label>
-                    <input matInput type="search">
+                    <input matInput type="search" [(ngModel)]="filterTemplatesValue" (keyup)="filter(filterTemplatesValue,$event)">
                 </mat-form-field>
             </div>
             <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
@@ -93,7 +95,7 @@
                 </table>
                 <div class="d-flex justify-content-end">
                     <!-- button -->
-                    <button class="" [disabled]="newFields.length==0 || namesForm.invalid" mat-button color="accent"
+                    <button class="" [disabled]="newFields.length==0 || namesForm.invalid || loading" mat-stroked-button color="accent"
                         (click)="save(namesForm.value,newFields)">{{namesForm.value['_id']?'Save':'Create'}}</button>
                 </div>
             </div>

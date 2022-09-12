@@ -12,7 +12,7 @@ export class NavHeaderComponent implements OnInit {
   public user: User = {
     id: '',
     username: '',
-    isAdmin: ''
+    isAdmin: false
   }
   // functions
   // log out
@@ -21,7 +21,7 @@ export class NavHeaderComponent implements OnInit {
     this.ms.user = {
       id: '',
       username: '',
-      isAdmin: ''
+      isAdmin: true
     }
     this.router.navigate(['/'])
     
@@ -31,13 +31,18 @@ export class NavHeaderComponent implements OnInit {
     const res = await this.ms.get('auth/whoami')
     this.ms.user = res.data
     this.user = this.ms.user
-    
+    if(this.user.isAdmin==false && this.router.url=='/users'){
+      this.router.navigate(['/tests'])
+    }
   }
   // life cycles
   constructor(private ms: MasterService, public router: Router) {
     if (this.ms.user.id) {
       // no find info, just take information from service
       this.user = this.ms.user
+      if(this.user.isAdmin==false && this.router.url=='/users'){
+        this.router.navigate(['/tests'])
+      }
     } else {
       if (localStorage.getItem('tokenLAB')) {
         // if reload the page

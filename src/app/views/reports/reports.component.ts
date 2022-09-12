@@ -10,6 +10,8 @@ import { NgxQrcodeElementTypes,NgxQrcodeErrorCorrectionLevels } from '@techiedia
 })
 export class ReportsComponent implements OnInit {
   // variable
+  public loading:boolean=false
+  // 
   public userId: string = ''
   // 
   public id: string = ''
@@ -31,14 +33,15 @@ export class ReportsComponent implements OnInit {
   }
   // send email
   public sendEmail=async(id:string)=>{
-    debugger
-    // this.data[0]['patient']['email']
+    this.loading=true
     const data = this.ms.requestManage(await this.ms.post('mailer/',{
-      patientEmail:'linkarlozcore@hotmail.com',
+      patientEmail:this.data[0]['patient']['email'],
       patientId:this.userId
     }))
+    setTimeout(() => {
+      this.loading=false
+    }, 3000);
     if (data) {
-      debugger
       this.data=data
     }
   }

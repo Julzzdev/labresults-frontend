@@ -15,7 +15,7 @@ export class MasterService {
   public user:User= {
     id: '',
     username: '',
-    isAdmin: ''
+    isAdmin: false
   }
   // function get
   public get = async (section: string) => {

@@ -10,6 +10,12 @@ import { MasterService } from '../../services/master.service'
 })
 export class TemplatesComponent implements OnInit {
   // variables
+  public loading:boolean=false
+  // 
+  public filterTemplatesValue: string = ''
+  // 
+  public templatesComplete: Template[] = [];
+  // 
   public fieldSelected: number = -1
   // 
   public formView: boolean = false
@@ -67,16 +73,19 @@ export class TemplatesComponent implements OnInit {
   // save new template
   public save = async (names: any, newFields: any[]) => {
     if (this.namesForm.value['_id']) {
+      this.loading=true
       const data = this.ms.requestManage(await this.ms.patch('templates', { ...names, data: newFields }))
+      this.loading=false
       if (data) {
         this.readTemplates()
         this.ms.showAlert('Success', 'Template updated succefully', 'success')
       }
     } else {
       // create
+      this.loading=true
       let data = this.ms.requestManage(await this.ms.post('templates', { ...names, data: newFields }))
+      this.loading=false
       if (data) {
-
         this.templates.push({ ...data })
         this.ms.showAlert('Success', 'Template created succefully', 'success')
       }
@@ -89,6 +98,7 @@ export class TemplatesComponent implements OnInit {
     const data = this.ms.requestManage(await this.ms.get('templates'))
     if (data) {
       this.templates = data
+      this.templatesComplete = data
     }
   }
   // listener 
@@ -127,7 +137,13 @@ export class TemplatesComponent implements OnInit {
       this.ms.showAlert('Success', 'Template deleted succefully', 'success')
     }
   }
-
+  // filter templates
+  public filter = async (filterValue: string, e: any) => {
+    filterValue=filterValue.toLowerCase()
+    if (e.key == 'Enter') {
+      this.templates = this.templatesComplete.filter(el => el.name.toLowerCase().indexOf(filterValue) >= 0)
+    }
+  }
   // life cycles
   constructor(private _formBuilder: FormBuilder, private ms: MasterService) { }
 

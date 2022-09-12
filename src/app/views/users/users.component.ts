@@ -10,6 +10,12 @@ import { MasterService } from '../../services/master.service'
 })
 export class UsersComponent implements OnInit {
   // variables
+  public loading:boolean=false
+  // 
+  public usersComplete: User[] = [];
+  // 
+  public filterValue: string = ''
+  // 
   public formView = false
   // all templates
   public users: User[] = []
@@ -45,22 +51,22 @@ export class UsersComponent implements OnInit {
   // save new template
   public save = async (form: any) => {
     if (this.userForm.value['id']) {
-      
+      this.loading=true
       const data = this.ms.requestManage(await this.ms.patch('auth/users', {
         ...form
       }))
-      
-      
+      this.loading=false
       if (data!=null) {
         this.readUsers()
         this.ms.showAlert('Success', 'User updated succefully', 'success')
       }
     } else {
       // create
-      
+      this.loading=true
       let data = this.ms.requestManage(await this.ms.post('auth/signup', {
         ...form,
       }))
+      this.loading=false
       if (data) {
         this.users.push({ ...data })
         this.ms.showAlert('Success', 'Patient created succefully', 'success')
@@ -88,7 +94,13 @@ export class UsersComponent implements OnInit {
       this.ms.showAlert('Failure !', 'Password or user name invalid.', 'warning')
     }
   }
-
+// filter templates
+public filter = async (filterValue: string, e: any) => {
+  filterValue=filterValue.toLowerCase()
+  if (e.key == 'Enter') {
+    this.users = this.usersComplete.filter(el => el.username.toLowerCase().indexOf(filterValue) >= 0)
+  }
+}
   // users
   public listenerUser = (e: any) => {
 
@@ -116,6 +128,7 @@ export class UsersComponent implements OnInit {
     const data = this.ms.requestManage(await this.ms.get('auth/users'))
     if (data) {
       this.users = data
+      this.usersComplete = data
     }
   }
   // delete

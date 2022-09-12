@@ -12,6 +12,16 @@ import { MasterService } from '../../services/master.service'
 })
 export class TestsComponent implements OnInit {
   // variables
+  public loading:boolean=false
+  // 
+  public patientsComplete: Patient[] = []
+  // 
+  public templatesComplete: Template[] = [];
+  // 
+  public filterTemplatesValue: string = ''
+  // 
+  public filterPatientValue: string = ''
+  // 
   public pagination = { startDate: '', endDate: '', page: 1, numPages: 1 }
   // 
   public pendingList: any[] = []
@@ -63,8 +73,6 @@ export class TestsComponent implements OnInit {
   public resetAll = () => {
     this.formView = !this.formView
     this.reset()
-    // this.resetTemplateName()
-    // this.resetFieldsForm()
   }
 
   // reset all forms
@@ -125,33 +133,37 @@ export class TestsComponent implements OnInit {
   }
   // read patients
   public readPatients = async () => {
-    const data = this.ms.requestManage(await this.ms.get('patients'))
+    const data = this.ms.requestManage(await this.ms.get(`patients?startDate=${this.pagination.startDate}&endDate=${this.pagination.endDate}&page=${this.pagination.page}`))
     if (data) {
       this.patients = data
+      this.patientsComplete = data
     }
   }
   // save new template
   public save = async (generalInformation: any, tests: any[]) => {
     if (this.generalForm.value['_id']) {
+      this.loading=true
       const data = this.ms.requestManage(await this.ms.patch('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
         tests: tests
       }))
+      this.loading=false
       if (data) {
         this.readPatients()
         this.ms.showAlert('Success', 'Patient updated succefully', 'success')
       }
     } else {
       // create
-
+      this.loading=true
       let data = this.ms.requestManage(await this.ms.post('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
         tests: tests
       }))
+      this.loading=false
       if (data) {
         this.patients.push({ ...data })
         this.ms.showAlert('Success', 'Patient created succefully', 'success')
@@ -167,8 +179,8 @@ export class TestsComponent implements OnInit {
       this.templates = data
       for (let index = 0; index < this.templates.length; index++) {
         this.templates[index]['selected'] = false
-
       }
+      this.templatesComplete = this.templates
 
     }
   }
@@ -200,14 +212,19 @@ export class TestsComponent implements OnInit {
       }
     }
   }
-  // read results
-  // public readResults = async () => {
-  //   const data = this.ms.requestManage(
-  //     await this.ms.get(`reports?startDate=${this.pagination.startDate}&endDate=${this.pagination.endDate}&page=${this.pagination.page}`))
-  //   if (data) {
-  //     this.results = data
-  //   }
-  // }
+  // filter templates
+  public filter = async (filterValue: string, section:string,e: any) => {
+    filterValue=filterValue.toLowerCase()
+    if (e.key == 'Enter') {
+      if(section=='templates'){
+        this.templates=this.templatesComplete.filter(el => el.name.toLowerCase().indexOf(filterValue) >= 0 )
+      }else{
+        this.patients=this.patientsComplete.filter(el => el.firstname.toLowerCase().indexOf(filterValue) >= 0 || el.lastname1.toLowerCase().indexOf(filterValue) >= 0 )
+      }
+      
+    }
+  }
+
   // format date
   public concatZero(number: number): string {
     return number < 10 ? '0' + number : '' + number
@@ -219,11 +236,11 @@ export class TestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.readPatients()
     this.readTemplates()
     const date = new Date();
     this.pagination.startDate = `${date.getFullYear()}-${this.concatZero(date.getMonth() + 1)}-${this.concatZero(date.getDate())}`
     this.pagination.endDate = this.pagination.startDate
+    this.readPatients()
   }
 
 }

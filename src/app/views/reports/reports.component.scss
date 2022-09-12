@@ -7,3 +7,10 @@
     opacity: .5;
   
   }
+
+  @media print{
+    .middle{
+
+      width: 50%;
+    }
+  }
