@@ -43,6 +43,16 @@
                     <b class="col-sm-12 ">Gender:</b>
                     <span class="col-sm-12 ">{{data[0]['patient']['gender']?'M':'F' }}</span>
                 </div>
+                <!-- date of sample -->
+                <div class="row mx-0 justify-content-between col-sm-4 col-md-6 py-1 three-quarter">
+                    <b class="col-sm-12 ">Date of sample:</b>
+                    <span class="col-sm-12 ">{{data[0]['patient']['createdAt'] | date:'mediumDate' }}</span>
+                </div>
+                <!-- date of report -->
+                <div class="row mx-0 justify-content-between col-sm-4 col-md-6 py-1 three-quarter">
+                    <b class="col-sm-12 ">Date of report:</b>
+                    <span class="col-sm-12 ">{{today | date:'mediumDate'}}</span>
+                </div>
             </div>
             <div class="d-flex flex-column align-items-center col-6 ">
                 <!-- Lab ID Number -->

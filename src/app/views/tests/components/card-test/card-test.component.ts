@@ -40,12 +40,15 @@ export class CardTestComponent implements OnInit {
 // send email
 public sendEmail=async(patient: Patient,isFlat:boolean)=>{
   this.loading=true
-  this.ms.requestManage(await this.ms.post('mailer/',{
+  const data=this.ms.requestManage(await this.ms.post('mailer/',{
     patientEmail:patient.email,
     patientId:patient._id,
     isFlat:isFlat
   }))
     this.loading=false
+    if (data) {
+      this.ms.showAlert('Success', 'Email sent succefully', 'success')
+    }
 }
   // life cycles
   constructor(private ms: MasterService, private route: Router) { }

@@ -54,6 +54,7 @@ export class NavHeaderComponent implements OnInit {
       }
 
     }
+    
   }
 
   ngOnInit(): void {

@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     
     if (data) {
       
-      localStorage.setItem('tokenLAB',data.data)
+      localStorage.setItem('tokenLAB',data)
       const user = await this.ms.get('auth/whoami')
       
       this.ms.user=user.data

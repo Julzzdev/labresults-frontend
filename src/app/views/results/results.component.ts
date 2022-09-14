@@ -22,8 +22,8 @@ export class ResultsComponent implements OnInit {
   }
   public slaveForm = this._formBuilder.group({
     parameter: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    reference: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    unit: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    reference: ['', []],
+    unit: ['', []],
     result: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]]
   });
   // functions
@@ -31,6 +31,11 @@ export class ResultsComponent implements OnInit {
     const data = this.ms.requestManage(await this.ms.get('templates/' + id))
     if (data) {
       this.data = data
+      
+      data.data.forEach((el:any) => {
+        el['result']=''
+      });
+      
     }
   }
   // return to pending
@@ -56,7 +61,7 @@ export class ResultsComponent implements OnInit {
         this.returnPending()
       }
     }else{
-      this.ms.showAlert('warning', 'There are some invalid values, please check it and try again.', 'success')
+      this.ms.showAlert('warning', 'There are some invalid values, please check it and try again.', 'warning')
     }
   }
   // check all results are valid
