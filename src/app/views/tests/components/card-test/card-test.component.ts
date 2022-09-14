@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CardTestComponent implements OnInit {
   // variables
   @Input() pendingList: any[] = []
- 
+  // variable
+  public loading:boolean=false
   // user id
   @Input() patientSelected: Patient = {
     firstname: '',
@@ -28,15 +29,24 @@ export class CardTestComponent implements OnInit {
     tests: []
   }
   // functions
-  public goTo = (section:string,test: Template, patient: Patient) => {
+  public goTo = (section:string,test: Template, patient: Patient,isFlat:boolean) => {
     if(section=='results'){
       this.route.navigate([`/${section}/${test._id}/${patient._id}`])
     }else{
-      this.route.navigate([`/${section}/${patient._id}`])
+      this.route.navigate([`/${section}/${patient._id}/${isFlat}`])
     }
     
   }
-
+// send email
+public sendEmail=async(patient: Patient,isFlat:boolean)=>{
+  this.loading=true
+  this.ms.requestManage(await this.ms.post('mailer/',{
+    patientEmail:patient.email,
+    patientId:patient._id,
+    isFlat:isFlat
+  }))
+    this.loading=false
+}
   // life cycles
   constructor(private ms: MasterService, private route: Router) { }
 

@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
   });
   // functions
   public logIn = async () => {
-    const data = await this.ms.post('auth/signin', this.userForm.value)
+    const data = this.ms.requestManage(await this.ms.post('auth/signin', this.userForm.value))
+    
     if (data) {
       
       localStorage.setItem('tokenLAB',data.data)
