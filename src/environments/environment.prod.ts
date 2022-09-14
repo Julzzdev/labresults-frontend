@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  host:window.location.protocol + '//' + window.location.hostname + (!!window.location.port ? ':' + window.location.port : '') + '/'
-};
+  host: 'http://64.227.20.192:3000/',
+}
