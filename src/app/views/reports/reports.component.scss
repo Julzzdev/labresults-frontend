@@ -1,16 +1,26 @@
 .bshadow {
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(5px 5px 5px #222222);
-    opacity: .5;
   
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(5px 5px 5px #222222);
+  opacity: .5;
+img{
+  height: 100px;
+}
+}
+.p-print{
+  padding: 5vh 10vw;
+}
+@media print {
+  .middle {
 
-  @media print{
-    .middle{
-
-      width: 50%;
-    }
+    width: 50%;
   }
+  .p-print{
+    padding: 0;
+  }
+  .three-quarter {
+    width: 33.33% !important;
+  }
+}

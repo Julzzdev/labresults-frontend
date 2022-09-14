@@ -10,6 +10,8 @@ import { NgxQrcodeElementTypes,NgxQrcodeErrorCorrectionLevels } from '@techiedia
 })
 export class ReportsComponent implements OnInit {
   // variable
+  public isFlat:boolean=false
+  // 
   public loading:boolean=false
   // 
   public userId: string = ''
@@ -31,23 +33,11 @@ export class ReportsComponent implements OnInit {
     }
 
   }
-  // send email
-  public sendEmail=async(id:string)=>{
-    this.loading=true
-    const data = this.ms.requestManage(await this.ms.post('mailer/',{
-      patientEmail:this.data[0]['patient']['email'],
-      patientId:this.userId
-    }))
-    setTimeout(() => {
-      this.loading=false
-    }, 3000);
-    if (data) {
-      this.data=data
-    }
-  }
+  
   // life cycles
   constructor(private route: ActivatedRoute, private ms: MasterService) {
     this.userId = this.route.snapshot.params['userId']
+    this.isFlat = this.route.snapshot.params['isFlat']=='true'?true:false
   }
 
   ngOnInit(): void {
