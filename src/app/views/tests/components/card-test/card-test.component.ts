@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Patient } from '../../../../interfaces/Patient.interface'
-
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Patient } from 'src/app/interfaces/Patient.interface';
+import { Template } from 'src/app/interfaces/Template.interface';
+import { Test } from 'src/app/interfaces/Test.interface';
+import { MasterService } from '../../../../services/master.service'
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'card-test',
   templateUrl: './card-test.component.html',
@@ -8,12 +11,34 @@ import { Patient } from '../../../../interfaces/Patient.interface'
 })
 export class CardTestComponent implements OnInit {
   // variables
-  @Input() data: Patient = {code:'123456', firstName: 'Juan Carlos', lastName: 'Carrillo',dateOfBirth:'2000-08-08',business:'Bimbo',gender:'male',tests:[] }
-
+  @Input() pendingList: any[] = []
+ 
+  // user id
+  @Input() patientSelected: Patient = {
+    firstname: '',
+    lastname1: '',
+    lastname2: '',
+    age: 0,
+    dateOfBirth: '',
+    business: '',
+    gender: false,
+    secondname: '',
+    email: '',
+    phone: '',
+    tests: []
+  }
   // functions
+  public goTo = (section:string,test: Template, patient: Patient) => {
+    if(section=='results'){
+      this.route.navigate([`/${section}/${test._id}/${patient._id}`])
+    }else{
+      this.route.navigate([`/${section}/${patient._id}`])
+    }
+    
+  }
 
   // life cycles
-  constructor() { }
+  constructor(private ms: MasterService, private route: Router) { }
 
   ngOnInit(): void {
   }

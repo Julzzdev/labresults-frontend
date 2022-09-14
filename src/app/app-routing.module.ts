@@ -12,8 +12,8 @@ const routes: Routes = [
   {component:LoginComponent, path:''},
   {component:TemplatesComponent, path:'templates'},
   {component:TestsComponent, path:'tests'},
-  {component:ResultsComponent,path:'results'},
-  {component:ReportsComponent,path:'reports'},
+  {component:ResultsComponent,path:'results/:id/:userId'},
+  {component:ReportsComponent,path:'reports/:userId'},
   {component:UsersComponent,path:'users'}
 ];
 

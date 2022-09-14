@@ -1,86 +1,106 @@
 <nav-header></nav-header>
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
+
     <div class="col-8 text-white py-5">
 
-        <!-- tabs -->
-        <mat-tab-group>
-            <mat-tab label="View" class="p-2" id="tab_view">
-                <div class="d-flex px-3">
-                    <!-- user -->
-                    <mat-form-field appearance="fill" color="accent">
-                        <mat-label>Search</mat-label>
-                        <input matInput type="search">
-                    </mat-form-field>
+        <div class="px-3">
+            <button mat-stroked-button color="accent" (click)="resetAll()">
+                {{formView?'Back to View all templates':'Go to create a new template'}}
+            </button>
+        </div>
+        <!-- view cards -->
+        <section *ngIf="!formView">
+            <div class="d-flex px-3">
+                <!-- user -->
+                <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Search</mat-label>
+                    <input matInput type="search" [(ngModel)]="filterTemplatesValue" (keyup)="filter(filterTemplatesValue,$event)">
+                </mat-form-field>
+            </div>
+            <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
+                <!-- cards -->
+                <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let template of templates">
+                    <card-template (cardTemplate$)="listenerTemplate($event)" [data]="template"></card-template>
                 </div>
-                <div class="row mx-0 row-cols-1 row-cols-md-4 g-4 ">
-                    <!-- cards -->
-                    <div class="col-sm-12 col col-md-6 col-lg-3" *ngFor="let template of templates">
-                        <card-template [data]="template"></card-template>
-                    </div>
+            </div>
+        </section>
+        <!-- view form -->
+        <section class="px-3 py-2 row mx-0" *ngIf="formView">
+            <!-- names -->
+            <form [formGroup]="namesForm" class="col-12 row px-2 mx-0">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" placeholder="">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Method</mat-label>
+                    <input matInput formControlName="method" placeholder="" type="text">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Code</mat-label>
+                    <input matInput formControlName="code" placeholder="" type="text">
+                </mat-form-field>
+            </form>
+            <hr>
+            <!-- fields -->
+            <form [formGroup]="fieldsForm" class="bg-dark col-12 row px-2 mx-0 justify-content-start rounded">
+                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                    <mat-label>Parameter</mat-label>
+                    <input matInput formControlName="parameter" placeholder="">
+                </mat-form-field>
+                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                    <mat-label>Unit</mat-label>
+                    <input matInput formControlName="unit" placeholder="">
+                </mat-form-field>
+                <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
+                    <mat-label>Reference</mat-label>
+                    <input matInput formControlName="reference" placeholder="">
+                </mat-form-field>
+                <div class="col-12 col-md-3 d-flex justify-content-end p-2 align-items-end">
+                    <button mat-button (click)="resetFieldsForm()">Reset</button>
+                    <button mat-button color="accent" class="mx-1" (click)="addFieldsGroup(fieldsForm)"
+                        [disabled]="fieldsForm.invalid">{{fieldSelected!=-1?'save':'Add field'}}</button>
                 </div>
-            </mat-tab>
-            <mat-tab label="Create" class="p-2">
-                <div class="px-3 py-2 row mx-0">
-                    <!-- names -->
-                    <form [formGroup]="namesForm" class="col-12 row px-2 mx-0">
-                        <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
-                            <mat-label>Name</mat-label>
-                            <input matInput formControlName="name" placeholder="Last name, First name">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
-                            <mat-label>Code</mat-label>
-                            <input matInput formControlName="code" placeholder="Last name, First name" type="text">
-                        </mat-form-field>
-                    </form>
-                    <hr>
-                    <!-- fields -->
-                    <form [formGroup]="fieldsForm" class="bg-dark col-12 row px-2 mx-0 justify-content-start rounded">
-                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
-                            <mat-label>Field Name</mat-label>
-                            <input matInput formControlName="name" placeholder="Test">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
-                            <mat-label>Units</mat-label>
-                            <input matInput formControlName="units" placeholder="Test">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-3 p-2">
-                            <mat-label>Reference</mat-label>
-                            <input matInput formControlName="reference" placeholder="Test">
-                        </mat-form-field>
-                        <div class="col-12 col-md-3 d-flex justify-content-end p-2 align-items-end">
-                            <button mat-button (click)="resetFieldsForm()">Reset</button>
-                            <button mat-button color="primary" class="mx-1" (click)="addFieldsGroup(fieldsForm)"
-                                [disabled]="fieldsForm.invalid">Add field</button>
-                        </div>
-                    </form>
-                    <!-- table newFields-->
-                    <div class="col-sm-12 col-md-6 col-lg-7 px-2">
-                        <table class="table table-dark table-striped  ">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Field</th>
-                                    <th scope="col">Unity</th>
-                                    <th scope="col">Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let field of newFields">
-                                    <td>{{field.parameter}}</td>
-                                    <td>{{field.unit}}</td>
-                                    <td>{{field.reference}}</td>
-                                </tr>
-                            </tbody>
+            </form>
+            <!-- table newFields-->
+            <div class="col-sm-12 col-md-6 col-lg-7 px-2">
+                <table class="table table-dark table-striped  ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Field</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Reference</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let field of newFields;let i=index">
+                            <td>{{field.parameter}}</td>
+                            <td>{{field.unit}}</td>
+                            <td>{{field.reference}}</td>
+                            <td>
+                                <button *ngIf="fieldSelected!=i" mat-button (click)="editParam(field,i)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <button mat-button *ngIf="fieldSelected!=i" (click)="newFields.splice(i,1) ">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
 
-                        </table>
-                        <div class="d-flex justify-content-end">
-                            <!-- button -->
-                            <button [disabled]="newFields.length==0 || namesForm.invalid" mat-button color="primary"
-                                (click)="save(namesForm.value,newFields)">Create template</button>
-                        </div>
-                    </div>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <!-- button -->
+                    <button class="" [disabled]="newFields.length==0 || namesForm.invalid || loading" mat-stroked-button color="accent"
+                        (click)="save(namesForm.value,newFields)">{{namesForm.value['_id']?'Save':'Create'}}</button>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
+            </div>
+        </section>
+
     </div>
 
 </section>

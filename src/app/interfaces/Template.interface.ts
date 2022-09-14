@@ -5,5 +5,6 @@ export interface Template{
     name:string,
     code?:string,
     method:string,
+    selected?:boolean,
     data:Test[]
 }

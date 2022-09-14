@@ -1,1 +1,94 @@
-<p>reports works!</p>
+<section class="p-5 row mx-0 justify-content-center bg-secondary min-vh-100">
+    <div class="p-5 col-sm-12 col-md-8 border bg-white">
+        <!-- general information -->
+        <section class="row mx-0 border p-2 border-2 border-dark" *ngIf="data.length>0">
+            <!-- personal information -->
+            <div class="col-sm-6 middle">
+                <p>
+                    <span>Name: </span>
+                    <b class="fw-bold">
+                        {{data[0]['patient']['firstname']}}
+                        {{data[0]['patient']['secondname']}}
+                        {{data[0]['patient']['lastname1']}}
+                        {{data[0]['patient']['lastname2']}}
+                    </b>
+                </p>
+                <p>
+                    <span>Edad: </span>
+                    <b class="fw-bold">{{data[0]['patient']['age']}} years old</b>
+                </p>
+                <p>
+                    <span>Date of Birth: </span>
+                    <b class="fw-bold">{{data[0]['patient']['dateOfBirth'] | date}}</b>
+                </p>
+                <p>
+                    <span>Gender: </span>
+                    <b class="fw-bold">{{data[0]['patient']['gender']?'Male':'Female'}}</b>
+                </p>
+                <p>
+                    <span>Doctor: </span>
+                    <b class="fw-bold">--</b>
+                </p>
+            </div>
+            <!-- dates -->
+            <div class="col-sm-6 middle">
+                <p>
+                    <span>Turn: </span>
+                    <b class="fw-bold">Morning</b>
+                </p>
+                <p>
+                    <span>Test date: </span>
+                    <b class="fw-bold">Agust 4,2022 </b>
+                </p>
+                <p>
+                    <span>Print Date: </span>
+                    <b class="fw-bold">Agust 20,2022</b>
+                </p>
+            </div>
+        </section>
+        <!-- test -->
+        <div class="px-3 py-5" *ngFor="let test of data">
+            <h2 class="text-center text-capitalize">{{test['results'][0]['testId']['name']}}</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
+                            Param</th>
+                        <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
+                            Result</th>
+                        <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
+                            Unit</th>
+                        <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
+                            Reference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let param of test['results'][0]['data']">
+                        <td>{{param.parameter}}</td>
+                        <td>{{param.result}}</td>
+                        <td>{{param.unit}}</td>
+                        <td>{{param.reference}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <section class="row mx-0">
+            <div class="col-sm-4 d-flex justify-content-end align-items-center flex-column">
+                <p class="w-100 text-center">"A" Resultado fuera de rango de referencia Alto.</p>
+                <p class="w-100 text-center">"B" Resultado fuera de rango de referencia Bajo.</p>
+            </div>
+            <div class="col-sm-4 d-flex justify-content-end align-items-center flex-column">
+                <p class="w-100 text-center">Q.F.B. Violeta Barajas Espinosa</p>
+                <p class="w-100 text-center">Cedula Profesional 12072023</p>
+                <p class="w-100 text-center">U.M.S.N.H</p>
+            </div>
+            <div class="col-sm-4 d-flex justify-content-center align-items-center ">
+                <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="value"
+                    cssClass="bshadow"></ngx-qrcode>
+            </div>
+        </section>
+    </div>
+    <div class="my-3 d-flex justify-content-end  col-sm-10 col-md-8">
+        <button mat-raised-button color="accent" (click)="sendEmail(userId)" *ngIf="!loading">Send email</button>
+    </div>
+</section>

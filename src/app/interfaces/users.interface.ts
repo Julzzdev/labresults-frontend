@@ -1,5 +1,6 @@
 export interface User{
-    firstName:string,
-    lastName:string,
-    password:string,
+    id?:string,
+    username:string,
+    isAdmin:boolean,
+    darkMode?:boolean,
 }

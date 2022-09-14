@@ -1,36 +1,36 @@
 <div class="card bg-dark-1  border h-100">
-    <div class="card-header d-flex justify-content-between py-0 align-items-center  " >
-        <small class="small"> {{data.code}} </small>
+    <div class="card-header d-flex justify-content-end py-0 align-items-center  " >
         <div>
             <button mat-button [matMenuTriggerFor]="menu">
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item>Edit</button>
-                <button mat-menu-item>Delete</button>
+                <button mat-menu-item (click)="edit()">Edit</button>
+                <button mat-menu-item (click)="delete(data)">Delete</button>
             </mat-menu>
         </div>
     </div>
     <div class="card-body flex-wrap d-flex p-3">
 
-        <p class="card-text w-100">{{data.name}} </p>
+        <p class="card-text w-100 m-0">{{data.name}}  <small class="small" *ngIf="data.code">( {{data.code}} )</small> </p>
+        <p class="card-text w-100 m-0">{{data.method}}</p>
     </div>
-    <table class="table table-dark ">
-        <thead>
-            <tr>
-                <th scope="col" class="small">Name</th>
-                <th scope="col" class="small">Unit</th>
-                <th scope="col" class="small">Reference</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let field of data.data">
-                <td class="small">{{field.parameter}}</td>
-                <td class="small">{{field.unit}}</td>
-                <td class="small">{{field.reference}}</td>
-            </tr>
-        </tbody>
-    </table>
-
-
+    <div class="overflow-auto" style="max-height: 100px;">
+        <table class="table table-dark ">
+            <thead>
+                <tr>
+                    <th scope="col" class="small">Name</th>
+                    <th scope="col" class="small">Unit</th>
+                    <th scope="col" class="small">Reference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let field of data.data">
+                    <td class="small">{{field.parameter}}</td>
+                    <td class="small">{{field.unit}}</td>
+                    <td class="small">{{field.reference}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
