@@ -10,8 +10,10 @@ import { NgxQrcodeElementTypes,NgxQrcodeErrorCorrectionLevels } from '@techiedia
 })
 export class ReportsComponent implements OnInit {
   // variable
-  public isFlat:boolean=false
+  public today:string=''
   // 
+  public isFlat:boolean=false
+  //  
   public loading:boolean=false
   // 
   public userId: string = ''
@@ -38,6 +40,8 @@ export class ReportsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private ms: MasterService) {
     this.userId = this.route.snapshot.params['userId']
     this.isFlat = this.route.snapshot.params['isFlat']=='true'?true:false
+    const date = new Date();
+    this.today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
   }
 
   ngOnInit(): void {
