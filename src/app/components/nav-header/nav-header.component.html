@@ -1,37 +1,50 @@
-<nav class="navbar position-fixed navbar-expand-lg  top-0 left-0 z-index-1 w-100 " style="background-color: #FF454E;">
+<nav class="navbar position-fixed navbar-expand-lg  top-0 left-0 z-index-1 w-100 " style="background-color: #FC5757;">
   <!-- Navbar content -->
-  <div class="container-fluid col-8 px-0 d-flex justify-content-between">
+  <div class="px-3 container-fluid col-sm-12 col-md-10 col-lg-8 px-0 d-flex justify-content-between">
     <!-- session -->
-    <div class="d-flex flex-wrap">
-      <label class="mb-0 text-white p-2 w-100" [matMenuTriggerFor]="menu">{{user.username}} <mat-icon>
-        expand_morex
-      </mat-icon></label>
+    <div class="d-flex flex-wrap text-white align-items-center">
+      <!-- icon -->
+      <img src="../../../assets/images/logo.jpeg" height="40" class="rounded-3  mr-2">
+      <span>{{user.username}}</span>
       <!-- <mat-slide-toggle [checked]="user.darkMode" class="text-white">Dark Mode</mat-slide-toggle> -->
     </div>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logout()">Logout</button>
-      <!-- <button mat-menu-item >Active dark mode</button> -->
-    </mat-menu>
-    <!-- icon -->
-    <img src="../../../assets/images/logo.jpeg" height="40" class="rounded-3  mr-2">
     <!-- nav -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button mat-button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample">
+      <mat-icon class="text-white">menu</mat-icon>
     </button>
-    <div class="collapse navbar-collapse " id="navbarNav">
+
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Options</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="dropdown mt-2">
       <ul class="navbar-nav d-flex justify-content-end w-100">
-        <li class="nav-item">
-          <a class="nav-link h1 mb-0 text-light" [routerLink]="['/templates']"
-            routerLinkActive="border-bottom">Templates</a>
+        <li class="nav-item text-muted">
+          <a class="nav-link h1 mb-0 " [routerLink]="['/templates']" routerLinkActive="text-dark">Templates</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link h1 mb-0 text-light" [routerLink]="['/tests']" routerLinkActive="border-bottom">Pending</a>
+        <li class="nav-item text-muted">
+          <a class="nav-link h1 mb-0 " [routerLink]="['/contacts']" routerLinkActive="text-dark">Contacts</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link h1 mb-0 text-light" [routerLink]="['/users']" routerLinkActive="border-bottom" *ngIf="user.isAdmin">Users</a>
+        <li class="nav-item text-muted">
+          <a class="nav-link h1 mb-0 " [routerLink]="['/pending']" routerLinkActive="text-dark">Pending</a>
+        </li>
+        <li class="nav-item text-muted">
+          <a class="nav-link h1 mb-0 " [routerLink]="['/users']" routerLinkActive="text-dark"
+          *ngIf="user.isAdmin">Users</a>
+        </li>
+       
+        <hr>
+        <li class="nav-item text-muted">
+          <a class="nav-link h1 mb-0 "  (click)="logout()">Logout</a>
         </li>
       </ul>
     </div>
   </div>
-</nav>
+</div>
