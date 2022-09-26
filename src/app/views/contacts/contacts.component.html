@@ -1,0 +1,134 @@
+<nav-header></nav-header>
+<section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
+    <div class="col-sm-12 col-md-10 col-lg-8  text-white py-5">
+        <div class="px-4">
+
+            <button mat-stroked-button color="accent" (click)="resetAll(false)">
+                {{formView?'Back to View all contacts':'Go to create a new contact'}}
+            </button>
+        </div>
+        <!-- view cards -->
+        <section *ngIf="!formView" class="row mx-0 px-3">
+            <!-- filter -->
+            <!-- <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-4 col-lg-3">
+                <mat-label>Search</mat-label>
+                <input matInput type="search" [(ngModel)]="filterPatientValue"
+                    (keyup)="filter(filterPatientValue,'patient',$event)">
+            </mat-form-field> -->
+
+            <div class="row mx-0  px-0">
+
+                <!-- table -->
+                <div class="col-sm-12  overflow-auto  border-top-0 border-bottom-0 border-start-0"
+                    style="max-height: 50vh;">
+                    <table class="table table-dark w-100">
+                        <thead>
+                            <tr>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Business</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let contact of contacts">
+                                <td class="bg-transparent ">{{contact.firstname}}</td>
+                                <td class="bg-transparent ">{{contact.lastname1}}</td>
+                                <td class="bg-transparent ">{{contact.age}}</td>
+                                <td class="bg-transparent ">{{contact.gender?'Male':'Female'}}</td>
+                                <td class="bg-transparent ">{{contact.business}}</td>
+                                <td class="bg-transparent ">
+                                    <button mat-button [matMenuTriggerFor]="menu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="selectContact(contact)">Edit</button>
+                                        <button mat-menu-item (click)="deleteContact(contact['_id'])">Delete</button>
+                                    </mat-menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- table -->
+                </div>
+            </div>
+        </section>
+        <!-- view form -->
+        <section class="px-3 py-2 row mx-0" *ngIf="formView">
+            <!-- names -->
+            <form [formGroup]="generalForm" class="col-12 row px-2 mx-0">
+                <!-- first name -->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>First Name</mat-label>
+                    <input id="firstname" matInput formControlName="firstname">
+
+                </mat-form-field>
+                <!-- second name -->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Second Name</mat-label>
+                    <input id="secondname" matInput formControlName="secondname" placeholder="" type="text">
+                </mat-form-field>
+                <!-- last name -->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Last Name 1 </mat-label>
+                    <input id="lastname1" matInput formControlName="lastname1" placeholder="">
+                </mat-form-field>
+                <!-- last name 2-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Last Name 2</mat-label>
+                    <input id="lastname2" matInput formControlName="lastname2" placeholder="" type="text">
+                </mat-form-field>
+                <!-- Age-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Age</mat-label>
+                    <input id="age" matInput formControlName="age" type="number">
+                </mat-form-field>
+                <!-- date Of Birth-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Date Of Birth</mat-label>
+                    <input id="dateOfBirth" matInput formControlName="dateOfBirth" placeholder="" type="date">
+                </mat-form-field>
+                <!-- gender -->
+                <mat-radio-group aria-label="Select an option"
+                    class="p-2 col-sm-6 col-md-3 d-flex justify-content-center align-items-center flex-wrap"
+                    formControlName="gender" color="primary">
+                    <label for="" class="w-100">Gender</label>
+                    <mat-radio-button id="gender" value="male" class="mx-2">Male
+                    </mat-radio-button>
+                    <mat-radio-button value="female"> Female</mat-radio-button>
+                </mat-radio-group>
+                <!-- business-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Business</mat-label>
+                    <input id="business" matInput formControlName="business" type="text">
+                </mat-form-field>
+                <!-- email-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                    <mat-label>Email</mat-label>
+                    <input id="email" matInput formControlName="email" autocomplete="email" type="email">
+                </mat-form-field>
+                <!-- phone-->
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                    <mat-label>Phone</mat-label>
+                    <input id="phone" matInput formControlName="phone" autocomplete="tel" type="text">
+                </mat-form-field>
+            </form>
+            
+            <div class="d-flex justify-content-end p-2">
+
+                <!-- save / create-->
+                <button class="m-2" [disabled]="generalForm.invalid || loading" mat-stroked-button color="accent"
+                    (click)="save(generalForm.value)">
+                    {{generalForm.value['_id']?'Save':'Create'}}
+                </button>
+                <!-- reset -->
+                <button class="m-2" [disabled]="loading" mat-stroked-button color="accent" (click)="resetAll(true)">
+                    Reset
+                </button>
+            </div>
+        </section>
+    </div>
+
+</section>

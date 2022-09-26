@@ -40,7 +40,7 @@ export class ResultsComponent implements OnInit {
   }
   // return to pending
   public returnPending=()=>{
-    this.router.navigate(['/tests'])
+    this.router.navigate(['/pending'])
   }
   // save
   public save = async () => {
@@ -78,6 +78,7 @@ export class ResultsComponent implements OnInit {
     }
     return true
   }
+  
   // life cycles
   constructor(private _formBuilder: FormBuilder, private ms: MasterService, private route: ActivatedRoute,private router: Router) {
     this.userId = this.route.snapshot.params['userId']

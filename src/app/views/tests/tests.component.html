@@ -1,9 +1,9 @@
 <nav-header></nav-header>
 <section class="w-100 bg-dark min-vh-100 py-5 d-flex justify-content-center">
-    <div class="col-8 text-white py-5">
+    <div class="col-sm-12 col-md-10 col-lg-8  text-white py-5">
         <div class="px-4">
 
-            <button mat-stroked-button color="accent" (click)="resetAll()">
+            <button mat-stroked-button color="accent" (click)="resetAll(false)">
                 {{formView?'Back to View all patients':'Go to create a new patient'}}
             </button>
         </div>
@@ -12,25 +12,28 @@
             <!-- filter -->
             <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-4 col-lg-3">
                 <mat-label>Search</mat-label>
-                <input matInput type="search" [(ngModel)]="filterPatientValue" (keyup)="filter(filterPatientValue,'patient',$event)">
+                <input matInput type="search" [(ngModel)]="filterPatientValue"
+                    (keyup)="filter(filterPatientValue,'patient',$event)">
             </mat-form-field>
             <!-- start date -->
-            <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-4 col-lg-3">
+            <mat-form-field appearance="fill" color="accent" class="col-sm-6 col-md-4 col-lg-3">
                 <mat-label>Start Date</mat-label>
-                <input matInput type="date" [(ngModel)]="pagination.startDate" [max]="pagination.endDate" (change)="readPatients()">
+                <input matInput type="date" [(ngModel)]="pagination.startDate" [max]="pagination.endDate"
+                    (change)="readPatients()">
             </mat-form-field>
             <!-- end date -->
-            <mat-form-field appearance="fill" color="accent" class="col-sm-12 col-md-4 col-lg-3">
+            <mat-form-field appearance="fill" color="accent" class="col-sm-6 col-md-4 col-lg-3">
                 <mat-label>End Date</mat-label>
-                <input matInput type="date" [(ngModel)]="pagination.endDate" [min]="pagination.startDate" (change)="readPatients()">
+                <input matInput type="date" [(ngModel)]="pagination.endDate" [min]="pagination.startDate"
+                    (change)="readPatients()">
             </mat-form-field>
-            
-            <div class="row mx-0  g-4 px-0">
+
+            <div class="row mx-0  px-0">
 
                 <!-- table -->
-                <div class="col-sm-12 col overflow-auto  border-top-0 border-bottom-0 border-start-0"
+                <div class="col-sm-12  overflow-auto  border-top-0 border-bottom-0 border-start-0"
                     style="max-height: 50vh;" [ngClass]="{'col-md-8 border': patientSelected['firstname']}">
-                    <table class="table table-dark">
+                    <table class="table table-dark w-100">
                         <thead>
                             <tr>
                                 <th scope="col">First Name</th>
@@ -42,20 +45,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let patient of patients" [ngClass]="{'bg-secondary': patient._id==patientSelected._id}">
+                            <tr *ngFor="let patient of patients"
+                                [ngClass]="{'bg-secondary': patient._id==patientSelected._id}">
                                 <td class="bg-transparent ">{{patient.firstname}}</td>
                                 <td class="bg-transparent ">{{patient.lastname1}}</td>
                                 <td class="bg-transparent ">{{patient.age}}</td>
                                 <td class="bg-transparent ">{{patient.gender?'Male':'Female'}}</td>
                                 <td class="bg-transparent ">{{patient.business}}</td>
-                                <td class="bg-transparent "><button mat-stroked-button color="accent" (click)="getDetail(patient)">View detail</button></td>
+                                <td class="bg-transparent "><button mat-stroked-button color="accent"
+                                        (click)="getDetail(patient)">View detail</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <!-- table -->
                 </div>
                 <!-- detail -->
-                <div class="col-sm-12 col col-md-4 overflow-auto " style="max-height: 50vh;" >
+                <div class="col-sm-12 col col-md-4 overflow-auto " style="max-height: 50vh;">
                     <card-test [pendingList]="pendingList" [patientSelected]="patientSelected"></card-test>
                 </div>
             </div>
@@ -67,64 +72,79 @@
                 <!-- first name -->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>First Name</mat-label>
-                    <input matInput formControlName="firstname" placeholder="">
+                    <input id="firstname" matInput formControlName="firstname" placeholder="" [matAutocomplete]="auto">
+                    <!-- autocomplete -->
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let contact of contacts " (click)="selectContact(contact)">
+                            {{contact.firstname}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
                 <!-- second name -->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Second Name</mat-label>
-                    <input matInput formControlName="secondname" placeholder="" type="text">
+                    <input id="secondname" matInput formControlName="secondname" placeholder="" type="text">
                 </mat-form-field>
                 <!-- last name -->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
-                    <mat-label>Last Name 1</mat-label>
-                    <input matInput formControlName="lastname1" placeholder="">
+                    <mat-label>Last Name 1 </mat-label>
+                    <input id="lastname1" matInput formControlName="lastname1" placeholder="">
                 </mat-form-field>
                 <!-- last name 2-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Last Name 2</mat-label>
-                    <input matInput formControlName="lastname2" placeholder="" type="text">
+                    <input id="lastname2" matInput formControlName="lastname2" placeholder="" type="text">
                 </mat-form-field>
                 <!-- Age-->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Age</mat-label>
-                    <input matInput formControlName="age" placeholder="" type="number">
+                    <input id="age" matInput formControlName="age" type="number">
                 </mat-form-field>
                 <!-- date Of Birth-->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Date Of Birth</mat-label>
-                    <input matInput formControlName="dateOfBirth" placeholder="" type="date">
+                    <input id="dateOfBirth" matInput formControlName="dateOfBirth" placeholder="" type="date">
                 </mat-form-field>
                 <!-- gender -->
                 <mat-radio-group aria-label="Select an option"
-                    class="p-2 col-sm-6 col-md-2 d-flex justify-content-center align-items-center flex-wrap"
+                    class="p-2 col-sm-6 col-md-3 d-flex justify-content-center align-items-center flex-wrap"
                     formControlName="gender" color="primary">
                     <label for="" class="w-100">Gender</label>
-                    <mat-radio-button value="male" class="mx-2">Male </mat-radio-button>
-                    <mat-radio-button value="female"> Female</mat-radio-button>
+                    <mat-radio-button id="gender" value="male" class="mx-2" [disabled]="isdisabled">Male
+                    </mat-radio-button>
+                    <mat-radio-button value="female" [disabled]="isdisabled"> Female</mat-radio-button>
                 </mat-radio-group>
                 <!-- business-->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Business</mat-label>
-                    <input matInput formControlName="business" placeholder="" type="text">
+                    <input id="business" matInput formControlName="business" type="text" [disabled]="isdisabled">
                 </mat-form-field>
                 <!-- email-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" placeholder="" type="email">
+                    <input id="email" matInput formControlName="email" autocomplete="email" type="email"
+                        [disabled]="isdisabled">
                 </mat-form-field>
                 <!-- phone-->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Phone</mat-label>
-                    <input matInput formControlName="phone" placeholder="" type="text">
+                    <input id="phone" matInput formControlName="phone" autocomplete="tel" type="text"
+                        [disabled]="isdisabled">
                 </mat-form-field>
+                <!-- add test -->
+                <div appearance="fill" class="p-2 col-sm-6 col-md-3 d-flex flex-wrap">
+                    <mat-checkbox class="example-margin" color="primary" (change)="isContactSaved=!isContactSaved"
+                        [checked]="isContactSaved" [disabled]="isdisabled">Save contact</mat-checkbox>
 
+                </div>
             </form>
             <hr>
             <!-- user -->
-            <div class="col-12"> 
-                <mat-form-field appearance="fill" color="accent" >
+            <div class="col-12">
+                <mat-form-field appearance="fill" color="accent">
                     <mat-label>Search</mat-label>
-                    <input matInput type="search" [(ngModel)]="filterTemplatesValue" (keyup)="filter(filterTemplatesValue,'templates',$event)">
+                    <input matInput type="search" [(ngModel)]="filterTemplatesValue"
+                        (keyup)="filter(filterTemplatesValue,'templates',$event)">
                 </mat-form-field>
             </div>
             <!-- table newFields-->
@@ -156,30 +176,19 @@
                 </table>
             </div>
             <div class="d-flex justify-content-end p-2">
-                <!-- button tests.length==0 || -->
-                <button class="" [disabled]="generalForm.invalid || tests.length==0 || loading" mat-stroked-button color="accent"
-                    (click)="save(generalForm.value,tests)">{{generalForm.value['_id']?'Save':'Create'}}</button>
+
+                <!-- save / create-->
+                <button class="m-2" [disabled]="generalForm.invalid || tests.length==0 || loading" mat-stroked-button
+                    color="accent" (click)="save(generalForm.value,tests)">
+                    {{generalForm.value['_id']?'Save':'Create'}}
+                </button>
+                <!-- reset -->
+                <button class="m-2" [disabled]="loading" mat-stroked-button
+                    color="accent" (click)="resetAll(true)">
+                    Reset
+                </button>
             </div>
         </section>
     </div>
 
 </section>
-
-<!-- Modal -->
-<div class="modal fade text-white z-index-4" id="templates" tabindex="-1" aria-labelledby="template" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h2 class="modal-title mb-0" id="exampleModalLabel">Tests</h2>
-            </div>
-            <div class="modal-body bg-dark-1">
-
-
-            </div>
-            <div class="modal-footer bg-dark">
-                <button mat-button data-bs-dismiss="modal" id="cancel-templates">cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>

@@ -28,11 +28,17 @@ export class NavHeaderComponent implements OnInit {
   }
   // 
   public getCookie = async () => {
+    
     const res = await this.ms.get('auth/whoami')
-    this.ms.user = res.data
-    this.user = this.ms.user
-    if(this.user.isAdmin==false && this.router.url=='/users'){
-      this.router.navigate(['/tests'])
+    if(res.data){
+      this.ms.user = res.data
+      this.user = this.ms.user
+      if(this.user.isAdmin==false && this.router.url=='/users'){
+        this.router.navigate(['/pending'])
+      }
+    }else{
+      // unauthorized token
+      this.router.navigate(['/'])
     }
   }
   // life cycles
@@ -41,7 +47,7 @@ export class NavHeaderComponent implements OnInit {
       // no find info, just take information from service
       this.user = this.ms.user
       if(this.user.isAdmin==false && this.router.url=='/users'){
-        this.router.navigate(['/tests'])
+        this.router.navigate(['/pending'])
       }
     } else {
       if (localStorage.getItem('tokenLAB')) {

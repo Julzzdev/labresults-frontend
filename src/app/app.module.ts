@@ -31,7 +31,9 @@ import { ReportsComponent } from './views/reports/reports.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { MasterService } from './services/master.service'
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-
+import { ContactsComponent } from './views/contacts/contacts.component';
+import { CardContactComponent } from './views/contacts/components/card-contact/card-contact.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
     UsersComponent,
     CardUserComponent,
     ReportsComponent,
-    SettingsComponent
+    SettingsComponent,
+    ContactsComponent,
+    CardContactComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,8 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
     MatRadioModule,
     MatTabsModule,
     NgxQRCodeModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatAutocompleteModule
   ],
   providers: [MasterService],
   bootstrap: [AppComponent]
