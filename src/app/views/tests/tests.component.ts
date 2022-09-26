@@ -3,6 +3,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Template } from 'src/app/interfaces/Template.interface';
 import { Patient } from '../../interfaces/Patient.interface'
 import { MasterService } from '../../services/master.service'
+import * as moment from 'moment';
 
 
 @Component({
@@ -10,9 +11,18 @@ import { MasterService } from '../../services/master.service'
   templateUrl: './tests.component.html',
   styleUrls: ['./tests.component.scss']
 })
+
 export class TestsComponent implements OnInit {
   // variables
-  public loading:boolean=false
+  public isdisabled: boolean = false
+  // 
+  public isContactSaved: boolean = false
+  // 
+  public contactsComplete: Patient[] = [];
+  // 
+  public contacts: Patient[] = [];
+  // 
+  public loading: boolean = false
   // 
   public patientsComplete: Patient[] = []
   // 
@@ -69,9 +79,19 @@ export class TestsComponent implements OnInit {
   // test selected
   public testSelected: string = ''
   // functions
+
   // reset all forms
-  public resetAll = () => {
-    this.formView = !this.formView
+  public resetAll = (samePlace:boolean) => {
+    if(!samePlace){
+      this.formView = !this.formView
+    }
+    this.templatesComplete.forEach(template => {
+      template.selected = false
+    })
+    this.templates = this.templatesComplete
+    this.isContactSaved = false
+    this.isdisabled=false
+    this.toggleDisabled(false)
     this.reset()
   }
 
@@ -96,7 +116,7 @@ export class TestsComponent implements OnInit {
   public quitTest = (index: number) => {
     this.testCatalog.splice(index, 1)
   }
-  // 
+  // listener of patients card
   public listenerPatient = (e: any) => {
     switch (e.message) {
       case 'delete':
@@ -142,35 +162,45 @@ export class TestsComponent implements OnInit {
   // save new template
   public save = async (generalInformation: any, tests: any[]) => {
     if (this.generalForm.value['_id']) {
-      this.loading=true
+      this.loading = true
       const data = this.ms.requestManage(await this.ms.patch('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
         tests: tests
       }))
-      this.loading=false
+      this.loading = false
       if (data) {
         this.readPatients()
         this.ms.showAlert('Success', 'Patient updated succefully', 'success')
       }
     } else {
       // create
-      this.loading=true
+      this.loading = true
+
       let data = this.ms.requestManage(await this.ms.post('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
         age: parseInt(generalInformation.age),
         tests: tests
       }))
-      this.loading=false
+      this.loading = false
       if (data) {
         this.patients.push({ ...data })
-        this.ms.showAlert('Success', 'Patient created succefully', 'success')
+
+        if (this.isContactSaved) {
+          this.saveContact({
+            ...generalInformation,
+            gender: generalInformation.gender == 'male' ? true : false,
+            age: parseInt(generalInformation.age),
+          })
+        } else {
+          this.ms.showAlert('Success', 'Patient created succefully', 'success')
+        }
       }
 
     }
-    this.resetAll();
+    this.resetAll(false);
   }
   // read templetes
   public readTemplates = async () => {
@@ -182,6 +212,52 @@ export class TestsComponent implements OnInit {
       }
       this.templatesComplete = this.templates
 
+    }
+  }
+  // read contacts
+  public readContacts = async () => {
+    const data = this.ms.requestManage(await this.ms.get('contacts'))
+    if (data) {
+      this.contacts = data
+      this.contactsComplete = this.contacts
+
+    }
+  }
+  // read contacts
+  public saveContact = async (patient: Patient) => {
+    const data = this.ms.requestManage(await this.ms.post('contacts', patient))
+    if (data) {
+      this.ms.showAlert('Success', 'Patient created and saved like contact succefully', 'success')
+      this.readContacts()
+    }
+  }
+  // select contact
+  public selectContact = (contact: Patient) => {
+    
+    this.generalForm.setValue({
+      _id: '',
+      firstname: contact.firstname,
+      secondname: contact.secondname || '',
+      lastname1: contact.lastname1,
+      lastname2: contact.lastname2 || '',
+      age: contact.age,
+      dateOfBirth: moment(contact.dateOfBirth).format('yyyy-MM-DD'),
+      business: contact.business,
+      gender: contact.gender ? 'male' : 'female',
+      email: contact.email,
+      phone: contact.phone,
+    });
+    this.toggleDisabled(true)
+    this.isContactSaved = false
+    this.isdisabled = true
+  }
+  // toggleDisabled
+  public toggleDisabled=(value:boolean)=>{
+    for (const key in this.generalForm.value) {
+      if(key != '_id' && key != 'gender'){
+        (document.getElementById(key) as HTMLInputElement).disabled = value
+      }
+      
     }
   }
   // extract some atribute
@@ -213,22 +289,18 @@ export class TestsComponent implements OnInit {
     }
   }
   // filter templates
-  public filter = async (filterValue: string, section:string,e: any) => {
-    filterValue=filterValue.toLowerCase()
+  public filter = async (filterValue: string, section: string, e: any) => {
+    filterValue = filterValue.toLowerCase()
     if (e.key == 'Enter') {
-      if(section=='templates'){
-        this.templates=this.templatesComplete.filter(el => el.name.toLowerCase().indexOf(filterValue) >= 0 )
-      }else{
-        this.patients=this.patientsComplete.filter(el => el.firstname.toLowerCase().indexOf(filterValue) >= 0 || el.lastname1.toLowerCase().indexOf(filterValue) >= 0 )
+      if (section == 'templates') {
+        this.templates = this.templatesComplete.filter(el => el.name.toLowerCase().indexOf(filterValue) >= 0)
+      } else {
+        this.patients = this.patientsComplete.filter(el => el.firstname.toLowerCase().indexOf(filterValue) >= 0 || el.lastname1.toLowerCase().indexOf(filterValue) >= 0)
       }
-      
+
     }
   }
 
-  // format date
-  public concatZero(number: number): string {
-    return number < 10 ? '0' + number : '' + number
-  }
 
   // life cycles
   constructor(private _formBuilder: FormBuilder, private ms: MasterService) {
@@ -236,9 +308,9 @@ export class TestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.readContacts()
     this.readTemplates()
-    const date = new Date();
-    this.pagination.startDate = `${date.getFullYear()}-${this.concatZero(date.getMonth() + 1)}-${this.concatZero(date.getDate())}`
+    this.pagination.startDate = moment().format('yyyy-MM-DD')
     this.pagination.endDate = this.pagination.startDate
     this.readPatients()
   }

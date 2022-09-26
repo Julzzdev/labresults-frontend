@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       this.ms.user=user.data
       // document.cookie = `{"userId" : "${data.id}"}`
       // this.ms.user = data
-      this.router.navigate(['/tests'])
+      this.router.navigate(['/pending'])
     }
   }
   // life cycles

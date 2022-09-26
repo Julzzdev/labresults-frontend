@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Patient } from 'src/app/interfaces/Patient.interface';
 import { Template } from 'src/app/interfaces/Template.interface';
-import { Test } from 'src/app/interfaces/Test.interface';
 import { MasterService } from '../../../../services/master.service'
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 @Component({
   selector: 'card-test',
   templateUrl: './card-test.component.html',
