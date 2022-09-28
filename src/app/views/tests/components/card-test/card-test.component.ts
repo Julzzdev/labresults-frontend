@@ -42,7 +42,8 @@ public sendEmail=async(patient: Patient,isFlat:boolean)=>{
   const data=this.ms.requestManage(await this.ms.post('mailer/',{
     patientEmail:patient.email,
     patientId:patient._id,
-    isFlat:isFlat
+    isFlat:isFlat,
+    url:`${window.location.origin}/reports/${patient._id}/${isFlat}`
   }))
     this.loading=false
     if (data) {
