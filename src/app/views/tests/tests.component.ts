@@ -54,7 +54,7 @@ export class TestsComponent implements OnInit {
     phone: ['', [Validators.required]],
   });
   // 
-  public settings: any = { isFlat: 'false', doctor: 'omar' }
+  public settings: any = { isFlat: 'false', doctor: '1' }
   // 
   public tests: Template[] = [];
   // 

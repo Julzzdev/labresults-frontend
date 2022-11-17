@@ -39,7 +39,7 @@ export class CardTestComponent implements OnInit {
     if (section == 'results') {
       this.route.navigate([`/${section}/${test._id}/${patient._id}`])
     } else {
-      this.route.navigate([`/${section}/${patient._id}/${isFlat}/'omar'`])
+      this.route.navigate([`/${section}/${patient._id}/${isFlat}/1`])
     }
   }
   // send email
