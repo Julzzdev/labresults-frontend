@@ -29,7 +29,6 @@
             </mat-form-field>
 
             <div class="row mx-0  px-0">
-
                 <!-- table -->
                 <div class="col-sm-12  overflow-auto  border-top-0 border-bottom-0 border-start-0"
                     style="max-height: 50vh;" [ngClass]="{'col-md-8 border': patientSelected['firstname']}">
@@ -61,7 +60,7 @@
                 </div>
                 <!-- detail -->
                 <div class="col-sm-12 col col-md-4 overflow-auto " style="max-height: 50vh;">
-                    <card-test [pendingList]="pendingList" [patientSelected]="patientSelected"></card-test>
+                    <card-test [pendingList]="pendingList" [patientSelected]="patientSelected" (cardEmitter$)="listenerEmail()"></card-test>
                 </div>
             </div>
         </section>
@@ -71,7 +70,7 @@
             <form [formGroup]="generalForm" class="col-12 row px-2 mx-0">
                 <!-- first name -->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
-                    <mat-label>First Name</mat-label>
+                    <mat-label>Given name(s)</mat-label>
                     <input id="firstname" matInput formControlName="firstname" placeholder="" [matAutocomplete]="auto">
                     <!-- autocomplete -->
                     <mat-autocomplete #auto="matAutocomplete">
@@ -80,62 +79,52 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-                <!-- second name -->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
-                    <mat-label>Second Name</mat-label>
-                    <input id="secondname" matInput formControlName="secondname" placeholder="" type="text">
-                </mat-form-field>
                 <!-- last name -->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
-                    <mat-label>Last Name 1 </mat-label>
+                    <mat-label>Surname(s)</mat-label>
                     <input id="lastname1" matInput formControlName="lastname1" placeholder="">
                 </mat-form-field>
                 <!-- last name 2-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
-                    <mat-label>Last Name 2</mat-label>
-                    <input id="lastname2" matInput formControlName="lastname2" placeholder="" type="text">
-                </mat-form-field>
                 <!-- Age-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                <!-- <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
                     <mat-label>Age</mat-label>
                     <input id="age" matInput formControlName="age" type="number">
-                </mat-form-field>
+                </mat-form-field> -->
                 <!-- date Of Birth-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Date Of Birth</mat-label>
-                    <input id="dateOfBirth" matInput formControlName="dateOfBirth" placeholder="" type="date">
+                    <input id="dateOfBirth" matInput formControlName="dateOfBirth" placeholder="" type="date" max="3000-01-01">
                 </mat-form-field>
                 <!-- gender -->
                 <mat-radio-group aria-label="Select an option"
-                    class="p-2 col-sm-6 col-md-3 d-flex justify-content-center align-items-center flex-wrap"
+                    class="p-2 col-sm-6 col-md-3 d-flex justify-content-start align-items-center flex-wrap"
                     formControlName="gender" color="primary">
                     <label for="" class="w-100">Gender</label>
-                    <mat-radio-button id="gender" value="male" class="mx-2" [disabled]="isdisabled">Male
+                    <mat-radio-button id="gender" value="male" class="mx-2" [disabled]="isDisabled">Male
                     </mat-radio-button>
-                    <mat-radio-button value="female" [disabled]="isdisabled"> Female</mat-radio-button>
+                    <mat-radio-button value="female" [disabled]="isDisabled"> Female</mat-radio-button>
                 </mat-radio-group>
                 <!-- business-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Business</mat-label>
-                    <input id="business" matInput formControlName="business" type="text" [disabled]="isdisabled">
+                    <input id="business" matInput formControlName="business" type="text" [disabled]="isDisabled">
                 </mat-form-field>
                 <!-- email-->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Email</mat-label>
                     <input id="email" matInput formControlName="email" autocomplete="email" type="email"
-                        [disabled]="isdisabled">
+                        [disabled]="isDisabled">
                 </mat-form-field>
                 <!-- phone-->
-                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-2" color="accent">
+                <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Phone</mat-label>
                     <input id="phone" matInput formControlName="phone" autocomplete="tel" type="text"
-                        [disabled]="isdisabled">
+                        [disabled]="isDisabled">
                 </mat-form-field>
                 <!-- add test -->
-                <div appearance="fill" class="p-2 col-sm-6 col-md-3 d-flex flex-wrap">
+                <div appearance="fill" class="p-2 col-12 d-flex flex-wrap">
                     <mat-checkbox class="example-margin" color="primary" (change)="isContactSaved=!isContactSaved"
-                        [checked]="isContactSaved" [disabled]="isdisabled">Save contact</mat-checkbox>
-
+                        [checked]="isContactSaved" [disabled]="isDisabled">Save contact</mat-checkbox>
                 </div>
             </form>
             <hr>
@@ -177,18 +166,58 @@
             </div>
             <div class="d-flex justify-content-end p-2">
 
+                <!-- reset -->
+                <button class="m-2" [disabled]="loading" mat-button
+                    color="accent" (click)="resetAll(true)">
+                    Reset
+                </button>
                 <!-- save / create-->
                 <button class="m-2" [disabled]="generalForm.invalid || tests.length==0 || loading" mat-stroked-button
                     color="accent" (click)="save(generalForm.value,tests)">
                     {{generalForm.value['_id']?'Save':'Create'}}
-                </button>
-                <!-- reset -->
-                <button class="m-2" [disabled]="loading" mat-stroked-button
-                    color="accent" (click)="resetAll(true)">
-                    Reset
                 </button>
             </div>
         </section>
     </div>
 
 </section>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" id="sendEmail" data-bs-toggle="modal" data-bs-target="#email">
+    
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="email" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Send email</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <mat-radio-group aria-label="Select an option"
+                class="p-2 col-12 d-flex justify-content-start align-items-center flex-wrap"
+                [(ngModel)]="settings.doctor" color="primary">
+                <label for="" class="mr-4 col-12">Signature</label>
+                <mat-radio-button id="doctor" value="omar" class="col-12">Omar Hernández M.D 
+                </mat-radio-button>
+                <mat-radio-button value="qbp" class="col-12"> QBP Luis Carlos Guerrero Jiménez</mat-radio-button>
+            </mat-radio-group>
+            <!-- Flat Design -->
+            <mat-radio-group aria-label="Select an option"
+                class="p-2 col-12 d-flex justify-content-start align-items-center flex-wrap"
+                [(ngModel)]="settings.isFlat" color="primary">
+                <label for="" class="mr-4 col-12">Design</label>
+                <mat-radio-button  value="false" class="col-12">Normal
+                </mat-radio-button>
+                <mat-radio-button value="true" class="col-12">Flat</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="modal-footer">
+          <button type="button" mat-button data-bs-dismiss="modal">Close</button>
+          <button type="button" mat-stroked-button data-bs-dismiss="modal" (click)="sendEmail(this.patientSelected,this.settings)">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -14,7 +14,7 @@ import * as moment from 'moment';
 
 export class TestsComponent implements OnInit {
   // variables
-  public isdisabled: boolean = false
+  public isDisabled: boolean = false
   // 
   public isContactSaved: boolean = false
   // 
@@ -45,17 +45,17 @@ export class TestsComponent implements OnInit {
   public generalForm = this._formBuilder.group({
     _id: ['', []],
     firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    secondname: ['', [Validators.minLength(1), Validators.maxLength(50)]],
     lastname1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    lastname2: ['', [Validators.minLength(1), Validators.maxLength(50)]],
-    age: ['', [Validators.required]],
+    age: ['', []],
     dateOfBirth: ['', Validators.required],
-    business: ['', []],
+    business: ['', [Validators.required]],
     gender: ['', [Validators.required]],
-    email: ['', [Validators.email]],
-    phone: ['', []],
+    email: ['', [Validators.email, Validators.required]],
+    phone: ['', [Validators.required]],
   });
-
+  // 
+  public settings: any = { isFlat: 'false', doctor: 'omar' }
+  // 
   public tests: Template[] = [];
   // 
   public templates: Template[] = [];
@@ -81,8 +81,8 @@ export class TestsComponent implements OnInit {
   // functions
 
   // reset all forms
-  public resetAll = (samePlace:boolean) => {
-    if(!samePlace){
+  public resetAll = (samePlace: boolean) => {
+    if (!samePlace) {
       this.formView = !this.formView
     }
     this.templatesComplete.forEach(template => {
@@ -90,7 +90,7 @@ export class TestsComponent implements OnInit {
     })
     this.templates = this.templatesComplete
     this.isContactSaved = false
-    this.isdisabled=false
+    this.isDisabled = false
     this.toggleDisabled(false)
     this.reset()
   }
@@ -128,9 +128,7 @@ export class TestsComponent implements OnInit {
         this.generalForm.setValue({
           _id: e.data['_id'],
           firstname: e.data['firstname'],
-          secondname: e.data['secondname'],
           lastname1: e.data['lastname1'],
-          lastname2: e.data['lastname2'],
           age: e.data['age'],
           business: 'bimbo',
           gender: e.data['gender'] ? 'male' : 'female',
@@ -166,7 +164,7 @@ export class TestsComponent implements OnInit {
       const data = this.ms.requestManage(await this.ms.patch('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
-        age: parseInt(generalInformation.age),
+        age: moment(moment().format('yyyy-MM-DD')).diff(moment(generalInformation.dateOfBirth).format('yyyy-MM-DD'), 'years'),
         tests: tests
       }))
       this.loading = false
@@ -177,11 +175,11 @@ export class TestsComponent implements OnInit {
     } else {
       // create
       this.loading = true
-
+      const age = moment(moment().format('yyyy-MM-DD')).diff(moment(generalInformation.dateOfBirth).format('yyyy-MM-DD'), 'years')
       let data = this.ms.requestManage(await this.ms.post('patients', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
-        age: parseInt(generalInformation.age),
+        age: age,
         tests: tests
       }))
       this.loading = false
@@ -192,7 +190,7 @@ export class TestsComponent implements OnInit {
           this.saveContact({
             ...generalInformation,
             gender: generalInformation.gender == 'male' ? true : false,
-            age: parseInt(generalInformation.age),
+            age: age,
           })
         } else {
           this.ms.showAlert('Success', 'Patient created succefully', 'success')
@@ -220,7 +218,6 @@ export class TestsComponent implements OnInit {
     if (data) {
       this.contacts = data
       this.contactsComplete = this.contacts
-
     }
   }
   // read contacts
@@ -233,13 +230,11 @@ export class TestsComponent implements OnInit {
   }
   // select contact
   public selectContact = (contact: Patient) => {
-    
+
     this.generalForm.setValue({
       _id: '',
       firstname: contact.firstname,
-      secondname: contact.secondname || '',
       lastname1: contact.lastname1,
-      lastname2: contact.lastname2 || '',
       age: contact.age,
       dateOfBirth: moment(contact.dateOfBirth).format('yyyy-MM-DD'),
       business: contact.business,
@@ -249,15 +244,16 @@ export class TestsComponent implements OnInit {
     });
     this.toggleDisabled(true)
     this.isContactSaved = false
-    this.isdisabled = true
+    this.isDisabled = true
   }
   // toggleDisabled
-  public toggleDisabled=(value:boolean)=>{
+  public toggleDisabled = (value: boolean) => {
+
     for (const key in this.generalForm.value) {
-      if(key != '_id' && key != 'gender'){
+      if (key != '_id' && key != 'gender' && key != 'age') {
         (document.getElementById(key) as HTMLInputElement).disabled = value
       }
-      
+
     }
   }
   // extract some atribute
@@ -300,7 +296,28 @@ export class TestsComponent implements OnInit {
 
     }
   }
-
+  // listener send email
+  public listenerEmail = () => {
+    (document.getElementById('sendEmail')as HTMLButtonElement).click()
+  }
+  // send email
+  public sendEmail = async (patient: Patient, settings: any) => {
+    console.log('patient:',patient);
+    console.log('settings:',settings);
+    this.loading = true
+    const data = this.ms.requestManage(
+      await this.ms.post('mailer/', {
+        patientEmail: patient.email,
+        // patientId:patient._id,
+        // isFlat:isFlat,
+        url: `${window.location.origin}/reports/${patient._id}/${settings.isFlat}/${settings.doctor}`,
+      })
+    )
+    this.loading = false
+    if (data) {
+      this.ms.showAlert('Success', 'Email sent succefully', 'success')
+    }
+  }
 
   // life cycles
   constructor(private _formBuilder: FormBuilder, private ms: MasterService) {
@@ -311,7 +328,7 @@ export class TestsComponent implements OnInit {
     this.readContacts()
     this.readTemplates()
     this.pagination.startDate = moment().format('yyyy-MM-DD')
-    this.pagination.endDate = this.pagination.startDate
+    this.pagination.endDate = moment(this.pagination.startDate).add(1, 'day').format('yyyy-MM-DD')
     this.readPatients()
   }
 

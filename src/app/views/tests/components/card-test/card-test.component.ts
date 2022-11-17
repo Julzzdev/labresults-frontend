@@ -27,6 +27,8 @@ export class CardTestComponent implements OnInit {
     phone: '',
     tests: [],
   }
+  // 
+  @Output() cardEmitter$=new EventEmitter<any>()
   // functions
   public goTo = (
     section: string,
@@ -37,24 +39,13 @@ export class CardTestComponent implements OnInit {
     if (section == 'results') {
       this.route.navigate([`/${section}/${test._id}/${patient._id}`])
     } else {
-      this.route.navigate([`/${section}/${patient._id}/${isFlat}`])
+      this.route.navigate([`/${section}/${patient._id}/${isFlat}/'omar'`])
     }
   }
   // send email
-  public sendEmail = async (patient: Patient, isFlat: boolean) => {
-    this.loading = true
-    const data = this.ms.requestManage(
-      await this.ms.post('mailer/', {
-        patientEmail: patient.email,
-        // patientId:patient._id,
-        // isFlat:isFlat,
-        url: `${window.location.origin}/reports/${patient._id}/${isFlat}`,
-      })
-    )
-    this.loading = false
-    if (data) {
-      this.ms.showAlert('Success', 'Email sent succefully', 'success')
-    }
+  public sendEmail = () => {
+    this.cardEmitter$.emit()
+    
   }
   // life cycles
   constructor(private ms: MasterService, private route: Router) {}

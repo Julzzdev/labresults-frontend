@@ -3,15 +3,13 @@
         <span>{{test.name}} {{test.code?'( ' +test.code+ ' )':''}}</span>
         <button mat-stroked-button color="accent" *ngIf="!test.isCaptured"
             (click)="goTo('results',test,patientSelected,false)">Capture</button>
-        
             <!-- send email -->
             <button mat-button [matMenuTriggerFor]="menu" *ngIf="test.isCaptured" >
                 Report
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item color="accent" (click)="sendEmail(patientSelected,true)">Send flat</button>
-                <button mat-menu-item color="accent" (click)="sendEmail(patientSelected,false)">Send normal</button>
-                <button mat-menu-item color="accent"  (click)="goTo('reports',test,patientSelected,false)">View</button>
+                <button mat-menu-item color="accent" (click)="sendEmail()">Send email</button>
+                <button mat-menu-item color="accent" (click)="goTo('reports',test,patientSelected,false)">View</button>
             </mat-menu>
             
     </li>

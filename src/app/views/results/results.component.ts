@@ -11,9 +11,10 @@ import { MasterService } from '../../services/master.service'
 export class ResultsComponent implements OnInit {
 
   // variables
-  public id: string = ''
   // 
-  public userId: string = ''
+  public id: string = ""
+  // 
+  public userId: string = ""
   // 
   public data: Template = {
     name: '',
@@ -31,56 +32,57 @@ export class ResultsComponent implements OnInit {
     const data = this.ms.requestManage(await this.ms.get('templates/' + id))
     if (data) {
       this.data = data
-      
-      data.data.forEach((el:any) => {
-        el['result']=''
+
+      data.data.forEach((el: any) => {
+        el['result'] = ''
       });
-      
+
     }
   }
   // return to pending
-  public returnPending=()=>{
+  public returnPending = () => {
     this.router.navigate(['/pending'])
   }
   // save
   public save = async () => {
-    if(this.areValidValues()){
-      const data = this.ms.requestManage(await this.ms.post('reports',{
-        patient:this.userId ,
+    if (this.areValidValues()) {
+      const data = this.ms.requestManage(await this.ms.post('reports', {
+        patient: this.userId,
         results:
-        [
-          {
-            "testId": this.id,
-            "data": this.data.data
-          }
-        ],
-        capturedBy:this.ms.user.id}))
+          [
+            {
+              "testId": this.id,
+              "data": this.data.data
+            }
+          ],
+        capturedBy: this.ms.user.id
+      }))
       if (data) {
         // success
         this.ms.showAlert('Success', 'Results captured succefully', 'success')
         this.returnPending()
       }
-    }else{
+    } else {
       this.ms.showAlert('warning', 'There are some invalid values, please check it and try again.', 'warning')
     }
   }
   // check all results are valid
   public areValidValues = (): boolean => {
     for (let index = 0; index < this.data.data.length; index++) {
-      
+
       this.slaveForm.setValue({
         ...this.data.data[index]
       })
-      
+
       if (this.slaveForm.invalid) {
         return false
       }
     }
     return true
   }
-  
+
   // life cycles
-  constructor(private _formBuilder: FormBuilder, private ms: MasterService, private route: ActivatedRoute,private router: Router) {
+  constructor(private _formBuilder: FormBuilder, private ms: MasterService, private route: ActivatedRoute, private router: Router) {
     this.userId = this.route.snapshot.params['userId']
     this.id = this.route.snapshot.params['id']
 

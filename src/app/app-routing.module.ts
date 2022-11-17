@@ -15,7 +15,7 @@ const routes: Routes = [
   { component: TestsComponent, path: 'pending' },
   { component: ContactsComponent, path: 'contacts' },
   { component: ResultsComponent, path: 'results/:id/:userId' },
-  { component: ReportsComponent, path: 'reports/:userId/:isFlat' },
+  { component: ReportsComponent, path: 'reports/:userId/:isFlat/:doctor' },
   { component: UsersComponent, path: 'users' }
 ];
 
