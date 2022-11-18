@@ -89,8 +89,6 @@
                             <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
                                 Result</th>
                             <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
-                                Unit</th>
-                            <th scope="col" class="bg-dark-light border border-start-0 border-end-0 border-2 border-dark">
                                 Reference</th>
                         </tr>
                     </thead>
@@ -98,7 +96,6 @@
                         <tr *ngFor="let param of test['results'][0]['data']">
                             <td>{{param.parameter}}</td>
                             <td>{{param.result}}</td>
-                            <td>{{param.unit}}</td>
                             <td>{{param.reference}}</td>
                         </tr>
                     </tbody>

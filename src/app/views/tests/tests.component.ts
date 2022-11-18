@@ -217,8 +217,13 @@ export class TestsComponent implements OnInit {
     const data = this.ms.requestManage(await this.ms.get('contacts'))
     if (data) {
       this.contacts = data
-      this.contactsComplete = this.contacts
+      this.contactsComplete = data
     }
+  }
+  // filterContact
+  public filterContact=(generalInformation:any)=>{
+    let word= (generalInformation.get('firstname').value || '')
+    this.contacts=this.contactsComplete.filter((el:any)=>el.firstname.indexOf(word)>=0)
   }
   // read contacts
   public saveContact = async (patient: Patient) => {

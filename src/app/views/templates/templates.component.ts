@@ -31,7 +31,6 @@ export class TemplatesComponent implements OnInit {
   });
   fieldsForm = this._formBuilder.group({
     parameter: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    unit: ['', [Validators.minLength(2), Validators.maxLength(10)]],
     reference: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
   });
 

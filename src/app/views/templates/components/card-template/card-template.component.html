@@ -20,14 +20,12 @@
             <thead>
                 <tr>
                     <th scope="col" class="small">Name</th>
-                    <th scope="col" class="small">Unit</th>
                     <th scope="col" class="small">Reference</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let field of data.data">
                     <td class="small">{{field.parameter}}</td>
-                    <td class="small">{{field.unit}}</td>
                     <td class="small">{{field.reference}}</td>
                 </tr>
             </tbody>

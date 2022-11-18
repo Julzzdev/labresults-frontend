@@ -24,7 +24,6 @@ export class ResultsComponent implements OnInit {
   public slaveForm = this._formBuilder.group({
     parameter: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     reference: ['', []],
-    unit: ['', []],
     result: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]]
   });
   // functions

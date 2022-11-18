@@ -33,7 +33,7 @@ export class ContactsComponent implements OnInit {
     secondname: ['', [Validators.minLength(1), Validators.maxLength(50)]],
     lastname1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     lastname2: ['', [Validators.minLength(1), Validators.maxLength(50)]],
-    age: ['', [Validators.required]],
+    age: ['', []],
     dateOfBirth: ['', Validators.required],
     business: ['', []],
     gender: ['', [Validators.required]],
@@ -84,7 +84,7 @@ export class ContactsComponent implements OnInit {
       const data = this.ms.requestManage(await this.ms.patch('contacts', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
-        age: parseInt(generalInformation.age)
+        age: moment(moment().format('yyyy-MM-DD')).diff(moment(generalInformation.dateOfBirth).format('yyyy-MM-DD'), 'years')
       }))
       this.loading = false
       if (data) {
@@ -98,7 +98,7 @@ export class ContactsComponent implements OnInit {
       let data = this.ms.requestManage(await this.ms.post('contacts', {
         ...generalInformation,
         gender: generalInformation.gender == 'male' ? true : false,
-        age: parseInt(generalInformation.age)
+        age: moment(moment().format('yyyy-MM-DD')).diff(moment(generalInformation.dateOfBirth).format('yyyy-MM-DD'), 'years')
       }))
       this.loading = false
       if (data) {

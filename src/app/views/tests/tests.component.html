@@ -71,7 +71,7 @@
                 <!-- first name -->
                 <mat-form-field appearance="fill" class="p-2 col-sm-6 col-md-3" color="accent">
                     <mat-label>Given name(s)</mat-label>
-                    <input id="firstname" matInput formControlName="firstname" placeholder="" [matAutocomplete]="auto">
+                    <input id="firstname" matInput formControlName="firstname" (keyup)="filterContact(this.generalForm)" placeholder="" [matAutocomplete]="auto">
                     <!-- autocomplete -->
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let contact of contacts " (click)="selectContact(contact)">
