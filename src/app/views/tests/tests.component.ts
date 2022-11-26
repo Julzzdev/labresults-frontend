@@ -130,7 +130,7 @@ export class TestsComponent implements OnInit {
           firstname: e.data['firstname'],
           lastname1: e.data['lastname1'],
           age: e.data['age'],
-          business: 'bimbo',
+          business: e.data['business'],
           gender: e.data['gender'] ? 'male' : 'female',
           email: e.data['email'],
           phone: e.data['phone'],
